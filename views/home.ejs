@@ -1,0 +1,81 @@
+<%- include('./partials/head'); %>
+
+<body class="d-flex flex-column h-100">
+    <script src="./search.js"></script>
+
+    <div class="container">
+
+<%- include('./partials/header'); %>
+
+    <p><%= message %></p>
+    <br/>
+    <a href="">View your collection</a><br/>
+    <a href="">Browse a random collection</a><br/>
+    <br/>
+    <a href="">Share collection with QR code</a><br/>
+    <a href="">Account settings</a><br/>
+    <a href="/logout">Log out</a><br/>
+    <br/>
+    
+    <p><h4>Add record to collection:</h4></p>
+    <form id="searchForm">
+        <div>
+            <label for="searchTerms">
+                <i class="fas fa-search"></i>
+            </label>
+            <input type="text" name="searchTerms" placeholder="Search artist or title" id="searchTerms" autocomplete="off" required>
+            <input type="submit" value="Search" onclick="search(event)">
+            <input type="submit" value="Clear results" onclick="clear(event)">
+        </div>
+    </form>
+    <br/>
+    
+    <div id="searchResults">
+    </div>
+    
+    <br/>
+    <div id="collection">
+        <p><h4>Your collection:</h4></p>
+    
+        <a href="">Import from discogs</a><br/>
+        <a href="">Export to discogs</a><br/>
+        <br/>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Artist</th>
+                    <th>Title</th>
+                    <th>Date added</th>
+                    <th>Action</th>
+                </tr>
+                <%
+                    /* if(sampleData.length > 0) */
+                    if (null) {
+                        sampleData.forEach(function(data) {
+                %>
+                <tr>
+                    <td><%= data.first_name %></td>
+                    <td><%= data.last_name %></td>
+                    <td></td>
+                </tr>
+                <%
+                        });
+                    } else {
+                %>
+                    <tr>
+                        <td colspan="4">Nothing added yet! Search by artist or title above to start adding to your collection.</td>
+                    </tr>
+                <%
+                }
+                %>
+            </table>
+        </div>
+    </div>
+
+    </div>
+
+<%- include('./partials/footer'); %>
+    
+    </body>
+</html>
