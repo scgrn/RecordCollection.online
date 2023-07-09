@@ -1,0 +1,123 @@
+<%- include('./partials/head'); %>
+    
+<body class="d-flex flex-column h-100">
+    <script src="./script.js"></script>
+
+    <div class="container">
+        <div class="row">
+        <div class="col-md-6">
+        
+<%- include('./partials/header'); %>
+    
+        <!--    tagline  -->
+        <div>
+            Browse and manage your record collection, right here on the <em>internet</em>! Hey!<br/>
+            All collections are publicly accessible. Data provided by <a href="https://www.discogs.com/">Discogs</a>.
+        </div>
+        <br/>
+
+        <div class="accordion accordion-flush " id="accordionFlushExample">
+            <div class="accordion-item">
+                <h4 class="accordion-header" id="flush-headingZero">
+                    <button id="browse-button" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseZero" aria-expanded="false" aria-controls="flush-collapseZero">
+                        Browse a random collection
+                    </button>
+                </h4>
+            </div>
+            
+            <!--    registration form  -->
+            <div class="accordion-item">
+                <h4 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Create an account
+                    </button>
+                </h4>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <form id="registerForm" action="/register" method="post" autocomplete="off">
+                            <div>
+                                <label for="registerUsername">
+                                    <i class="fas fa-user"></i>
+                                </label>
+                                <input type="text" name="username" placeholder="Username" id="registerUsername" autocomplete="off" required>
+                            </div>
+                            
+                            <div>
+                                <label for="registerEmail">
+                                    <i class="fas fa-envelope"></i>
+                                </label>
+                                <input type="email" name="email" placeholder="Email" id="registerEmail" autocomplete="email" required>
+                            </div>
+                            
+                            <div class="password-container">
+                                <label for="registerPassword">
+                                    <i class="fas fa-lock"></i>
+                                </label>
+                                <input type="password" name="password" placeholder="Password" id="registerPassword" required>
+                                <i class="fas fa-eye" id="registerEye"></i>
+                            </div>
+
+                            <div class="password-container">
+                                <label for="registerConfirmPassword">
+                                    <i class="fas fa-lock"></i>
+                                </label>
+                                <input type="password" name="confirmPassword" placeholder="Confirm password" id="registerConfirmPassword" required>
+                                <i class="fas fa-eye" id="registerConfirmEye"></i>
+                            </div>
+
+                            <div>
+                                [recaptcha3]
+                            </div>
+                            
+                            <div>
+                                <input type="submit" value="Register" onclick="register(event)">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--    login form  -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        Log in
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <form id="loginForm">
+                            <div>
+                                <label for="loginUsername">
+                                    <i class="fas fa-user"></i>
+                                </label>
+                                <input type="text" name="username" placeholder="Username" id="loginUsername" autocomplete="off" required>
+                            </div>
+                            
+                            <div class="password-container">
+                                <label for="loginPassword">
+                                    <i class="fas fa-lock"></i>
+                                </label>
+                                <input type="password" name="password" placeholder="Password" id="loginPassword" required>
+                                <i class="fas fa-eye" id="loginEye"></i>
+                            </div>
+
+                            <div>
+                                <input type="submit" value="Log in" onclick="login(event)">
+                            </div>
+                            <div id="status" class="m-2">&nbsp;</div>
+                        </form>
+                        <a href="">Trouble logging in?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+    </div>
+
+<%- include('./partials/footer'); %>
+
+    </body>
+</html>

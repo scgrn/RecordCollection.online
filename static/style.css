@@ -1,0 +1,56 @@
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-image: url("img/Technics_SL-1200MK5_Direct_Drive_Turntable_System_with_Ortofon_cartridge_(2017-01-21_22.33.27_piqsels.com_en).jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+
+    backdrop-filter: contrast(100%);
+    backdrop-filter: brightness(50%);
+
+    color: white;
+
+	overflow-x: hidden;
+}
+
+h1 {
+    font-family: 'Righteous';
+    font-size: 36px;
+}
+
+form div {
+    margin-top: 10px;
+}
+
+.fa-eye{
+    margin-left: -30px
+}
+
+.password-container input[type="password"],
+.password-container input[type="text"]{
+    padding-right: 35px;
+}
+
+.accordion-header {
+    border: 1px solid;
+}
+
+#browse-button::after {
+    content: none;
+}
+
+.error {
+    color: darkred;
+}
+
+th, td {
+    color: white;
+}
