@@ -1,6 +1,12 @@
 node_modules
 notes.txt
 
+static/img/covers/*
+!static/img/covers/.gitkeep
+
+static/img/thumbnails/*
+!static/img/thumbnails/.gitkeep
+
 # dotenv environment variable files
 .env
 .env.development.local
