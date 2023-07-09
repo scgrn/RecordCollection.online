@@ -35,7 +35,7 @@ function search(event) {
                         <tr>
                             <td><img src="${data[result].thumbnail}" style="width: 50%; height: 50%"/></td>
                             <td>${data[result].title}</td>
-                            <td><a href="./add?id=${data[result].id}">Add to collection</a></td>
+                            <td><a href="./add?id=${data[result].id}&coverImage=${data[result].coverImage}">Add to collection</a></td>
                         </tr>
                     `;
                 }

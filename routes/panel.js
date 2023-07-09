@@ -5,13 +5,8 @@ const fs = require('fs');
 
 const router = express.Router();
 
-// http://localhost/home
 router.get('/home', (request, response) => {
     if (request.session.loggedIn) {
-        // TODO: WHY DOES IT PRINT THIS TWICE
-        // https://stackoverflow.com/questions/72413113/expressjs-routes-are-invoked-twice-when-running-server-and-browsing-using-browse
-        console.log("HERE");
-        
         // output username
         var message;
         if (request.session.firstLogin) {
@@ -56,9 +51,10 @@ router.post('/search', (request, response) => {
                 });
             }
             results.push({
-                thumbnail: "img/thumbnails/" + data.results[result].master_id + ".jpg",
+                id: data.results[result].master_id,
                 title: data.results[result].title,
-                id: data.results[result].master_id
+                thumbnail: "img/thumbnails/" + data.results[result].master_id + ".jpg",
+                coverImage: data.results[result].cover_image,
             });
         }
     }).then(() => {
