@@ -29,7 +29,6 @@ const connection = mysql.createConnection({
 
 const router = express.Router();
 
-// http://localhost/register
 router.post('/register', function(request, response) {
     let username = request.body.username;
     let email = request.body.email;
@@ -43,7 +42,7 @@ router.post('/register', function(request, response) {
         return;
     }
     
-    const restricted = ["add", "remove", "admin", "contact", "img", "test"];
+    const restricted = ["add", "remove", "admin", "contact", "img", "auth", "register", "logout", "test"];
     if (restricted.includes(username)) {
         response.send('Username not available');
         response.end();
@@ -52,12 +51,11 @@ router.post('/register', function(request, response) {
     }
 
     connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
-        // if there is an issue with the query, output the error
         if (error) {
             throw error;
         }
         
-        // if the account exists
+        // check if the account exists
         if (results.length > 0) {
             response.send('Username not available');
             response.end();
@@ -70,7 +68,6 @@ router.post('/register', function(request, response) {
     });
 });
 
-// http://localhost/auth
 router.post('/auth', function(request, response) {
     const badLoginMessage = "Incorrect username or password";
     
@@ -80,7 +77,6 @@ router.post('/auth', function(request, response) {
     // ensure the input fields exists and are not empty
     if (username && password) {
         connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
-            //  check for error in query
             if (error) {
                 throw error;
             }
@@ -92,6 +88,7 @@ router.post('/auth', function(request, response) {
                         //  password is valid, authenticate user
                         request.session.loggedIn = true;
                         request.session.username = username;
+                        request.session.userID = results[0].id;
 
                         //  redirect to home page
                         response.redirect('/home');
@@ -114,7 +111,6 @@ router.post('/auth', function(request, response) {
     }
 });
 
-// http://localhost/logout
 router.get('/logout', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
