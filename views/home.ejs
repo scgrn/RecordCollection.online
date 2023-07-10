@@ -23,7 +23,7 @@
             <label for="searchTerms">
                 <i class="fas fa-search"></i>
             </label>
-            <input type="text" name="searchTerms" placeholder="Search artist or title" id="searchTerms" autocomplete="off" required>
+            <input type="text" name="searchTerms" placeholder="Search artist or title" id="searchTerms" autocomplete="off">
             <input type="submit" value="Search" onclick="search(event)">
             <input type="submit" value="Clear results" onclick="clear(event)">
         </div>
@@ -50,14 +50,14 @@
                     <th>Action</th>
                 </tr>
                 <%
-                    /* if(sampleData.length > 0) */
-                    if (null) {
-                        sampleData.forEach(function(data) {
+                    if (collection.length > 0) {
+                        collection.forEach(function(data) {
                 %>
                 <tr>
-                    <td><%= data.first_name %></td>
-                    <td><%= data.last_name %></td>
-                    <td></td>
+                    <td><%= data.artist %></td>
+                    <td><%= data.title %></td>
+                    <td><%= data.dateAdded.toLocaleDateString() %></td>
+                    <td><a href="/remove?id=<%= data.releaseID %>">Remove</a></td>
                 </tr>
                 <%
                         });

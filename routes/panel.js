@@ -1,28 +1,65 @@
 'use strict';
 
+const mysql = require('mysql');
 const express = require('express');
 const fs = require('fs');
 
 const router = express.Router();
 
+const connection = mysql.createConnection({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
+})
+
 router.get('/home', (request, response) => {
-    if (request.session.loggedIn) {
-        // output username
-        var message;
-        if (request.session.firstLogin) {
-            request.session.firstLogin = false;
-            message = 'Hello, ' + request.session.username + '!';
-        } else {
-            message = 'Welcome back, ' + request.session.username + '!';
+    if (!request.session.loggedIn) {
+        response.redirect('/'); // bye now
+        return;
+    }
+
+    // output username
+    var message;
+    if (request.session.firstLogin) {
+        request.session.firstLogin = false;
+        message = 'Hello, ' + request.session.username + '!';
+    } else {
+        message = 'Welcome back, ' + request.session.username + '!';
+    }
+
+    var collection = [];
+    
+    //  read user's collection
+    connection.query('SELECT * FROM collections WHERE userID = ?', [request.session.userID], function(error, results) {
+        if (error) {
+            throw error;
         }
         
-        // serve file
-        response.render("../views/home", { message: message });
-    } else {
-        // not logged in
-        console.log("NOT LOGGED IN, REDIRECTING HOME.");
-        response.redirect('/');
-    }
+        if (results.length == 0) {
+            //  serve file
+            response.render("../views/home", { message: message, collection: collection});
+            return
+        } else {
+            var callbacks = results.length;
+            for (let result in results) {
+                connection.query('SELECT * FROM releases WHERE releaseID = ?', [results[result].releaseID], function(error, results) {
+                    if (error) {
+                        throw error;
+                    }
+                    for (let release in results) {
+                        collection.push(results[release]);
+                    }
+                    
+                    callbacks--;
+                    if (callbacks == 0) {
+                        //  serve file
+                        response.render("../views/home", { message: message, collection: collection});
+                    }
+                });
+            }
+        }
+    });    
 });
 
 router.post('/search', (request, response) => {

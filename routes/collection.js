@@ -31,6 +31,10 @@ router.get('/add', (request, response) => {
 
     //  check if release is already in DB
     connection.query('SELECT * FROM releases WHERE releaseID = ?', [releaseID], function(error, results) {
+        if (error) {
+            throw error;
+        }
+
         if (results.length == 0) {
             db.getMaster(releaseID).then((masterData) => {
                 var artist = "UNKNOWN";
@@ -69,7 +73,7 @@ router.get('/add', (request, response) => {
 
         if (result.length == 0) {
             //  add record to collection
-            connection.query("INSERT INTO collections (userID, releaseID) VALUES (?, ?)", [userID, releaseID], function(error, results) {
+            connection.query("INSERT INTO collections (userID, releaseID, dateAdded) VALUES (?, ?, ?)", [userID, releaseID, new Date()], function(error, results) {
                 if (error) {
                     throw error;
                 }
@@ -87,9 +91,17 @@ router.get('/remove', (request, response) => {
         response.redirect('/');
         return;
     }
-    console.log("Remove: " + request.query.id);
-    
-    response.redirect('/home');
+
+    var userID = request.session.userID;
+    var releaseID = request.query.id;
+
+    connection.query("DELETE FROM collections WHERE userID=? AND releaseID=?", [userID, releaseID], function(error, results) {
+        if (error) {
+            throw error;
+        }
+
+        response.redirect('/home');
+    });
 });
 
 router.get('/:id', (request, response) => {
