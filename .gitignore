@@ -1,5 +1,5 @@
 node_modules
-notes.txt
+dev
 
 static/img/covers/*
 !static/img/covers/.gitkeep

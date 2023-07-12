@@ -7,18 +7,19 @@
 }
 
 body {
-    background-image: url("img/Technics_SL-1200MK5_Direct_Drive_Turntable_System_with_Ortofon_cartridge_(2017-01-21_22.33.27_piqsels.com_en).jpg");
+    background-image: url("img/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
 
-    backdrop-filter: contrast(100%);
-    backdrop-filter: brightness(50%);
-
     color: white;
 
-	overflow-x: hidden;
+    overflow-x: hidden;
+}
+
+table {
+    backdrop-filter: blur(10px) brightness(50%);
 }
 
 h1 {
