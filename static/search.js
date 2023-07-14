@@ -33,7 +33,7 @@ function search(event) {
                 for (let result in data) {
                     resultList += `
                         <tr>
-                            <td><img src="${data[result].thumbnail}" style="width: 50%; height: 50%"/></td>
+                            <td><img src="${data[result].thumbnail}" style="width: 75%; height: 75%"/></td>
                             <td>${data[result].title}</td>
                             <td><a href="./add?id=${data[result].id}&coverImage=${data[result].coverImage}">Add to collection</a></td>
                         </tr>
