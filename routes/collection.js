@@ -105,7 +105,7 @@ router.get('/remove', (request, response) => {
 });
 
 router.get('/:id', (request, response) => {
-    res.send('Get page for user ' + (request.params.id));
+    response.send('Get page for user ' + (request.params.id));
 });
 
 module.exports = router;

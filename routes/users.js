@@ -29,6 +29,26 @@ const connection = mysql.createConnection({
 
 const router = express.Router();
 
+function generateQRcode(username) {
+    console.log("Generate QR code for user: " + username);
+
+    var QRCode = require("qrcode-svg");
+    var qrcode = new QRCode({
+        content: "https://RecordCollection.online/" + username,
+        padding: 4,
+        width: 256,
+        height: 256,
+        color: "#000000",
+        background: "#ffffff",
+        ecl: "M",
+    });
+    qrcode.save(username + ".svg", function(error) {
+        if (error) {
+            throw error;
+        }
+    });
+}
+
 router.post('/register', function(request, response) {
     let username = request.body.username;
     let email = request.body.email;
@@ -115,6 +135,11 @@ router.get('/logout', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
 
+    response.redirect('/');
+});
+
+router.get('/delete', function(request, response) {
+    //  TODO: implement
     response.redirect('/');
 });
 
