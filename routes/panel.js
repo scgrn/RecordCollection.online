@@ -53,6 +53,23 @@ router.get('/home', (request, response) => {
                     
                     callbacks--;
                     if (callbacks == 0) {
+
+                        //  sort collection by artist and then title
+                        for (var record of collection) {
+                            record.sortArtist = record.artist;
+                            if (record.sortArtist.startsWith("The ")) {
+                                record.sortArtist = record.sortArtist.substring(4);
+                            }
+                        }
+                                             
+                        collection.sort((a, b) => {
+                            if (a.artist == b.artist) {
+                                return a.title.localeCompare(b.title);
+                            } else {    
+                                return a.sortArtist.localeCompare(b.sortArtist);
+                            }
+                        });
+
                         //  serve file
                         response.render("../views/home", { message: message, collection: collection});
                     }
