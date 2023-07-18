@@ -7,6 +7,9 @@ static/img/covers/*
 static/img/thumbnails/*
 !static/img/thumbnails/.gitkeep
 
+static/img/qrCodes/*
+!static/img/qrCodes/.gitkeep
+
 # dotenv environment variable files
 .env
 .env.development.local
