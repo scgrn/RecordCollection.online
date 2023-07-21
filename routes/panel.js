@@ -13,9 +13,7 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE
 })
 
-const getCollection = async(user) => {
-    var collection = [];
-
+const getCollection = async(user, callback) => {
     //  read user's collection
     connection.query(`SELECT
             releases.artist,
@@ -25,11 +23,11 @@ const getCollection = async(user) => {
         FROM collections
         INNER JOIN releases ON (collections.releaseID=releases.releaseID)
         WHERE collections.userID=?;`, [user], function(error, results) {
-        
+
         if (error) {
             throw error;
         }
-        
+
         if (results.length == 0) {
             //  serve file
             response.render("../views/home", { message: message, collection: collection});
@@ -42,7 +40,7 @@ const getCollection = async(user) => {
                     record.sortArtist = record.sortArtist.substring(4);
                 }
             }
-                                 
+
             results.sort((a, b) => {
                 if (a.artist == b.artist) {
                     return a.title.localeCompare(b.title);
@@ -50,11 +48,9 @@ const getCollection = async(user) => {
                     return a.sortArtist.localeCompare(b.sortArtist);
                 }
             });
-            console.log(results);
+            callback(results);
         }
     });
-    
-    return collection;
 }
 
 router.get('/home', (request, response) => {
@@ -72,10 +68,10 @@ router.get('/home', (request, response) => {
         message = 'Welcome back, ' + request.session.username + '!';
     }
 
-    var collection = getCollection(request.session.userID);
-
-    //  serve file
-    response.render("../views/home", { message: message, collection: collection});
+    var collection = getCollection(request.session.userID, (collection) => {
+        //  serve file
+        response.render("../views/home", { message: message, collection: collection});
+    });
 });
 
 router.post('/search', (request, response) => {
