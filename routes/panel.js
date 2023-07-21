@@ -13,6 +13,50 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE
 })
 
+const getCollection = async(user) => {
+    var collection = [];
+
+    //  read user's collection
+    connection.query(`SELECT
+            releases.artist,
+            releases.title,
+            releases.releaseID,
+            collections.dateAdded
+        FROM collections
+        INNER JOIN releases ON (collections.releaseID=releases.releaseID)
+        WHERE collections.userID=?;`, [user], function(error, results) {
+        
+        if (error) {
+            throw error;
+        }
+        
+        if (results.length == 0) {
+            //  serve file
+            response.render("../views/home", { message: message, collection: collection});
+            return
+        } else {
+            //  sort collection by artist and then title
+            for (let record of results) {
+                record.sortArtist = record.artist;
+                if (record.sortArtist.startsWith("The ")) {
+                    record.sortArtist = record.sortArtist.substring(4);
+                }
+            }
+                                 
+            results.sort((a, b) => {
+                if (a.artist == b.artist) {
+                    return a.title.localeCompare(b.title);
+                } else {    
+                    return a.sortArtist.localeCompare(b.sortArtist);
+                }
+            });
+            console.log(results);
+        }
+    });
+    
+    return collection;
+}
+
 router.get('/home', (request, response) => {
     if (!request.session.loggedIn) {
         response.redirect('/'); // bye now
@@ -28,55 +72,10 @@ router.get('/home', (request, response) => {
         message = 'Welcome back, ' + request.session.username + '!';
     }
 
-    var collection = [];
-    
-    //  read user's collection
-    connection.query('SELECT * FROM collections WHERE userID = ?', [request.session.userID], function(error, results) {
-        if (error) {
-            throw error;
-        }
-        
-        if (results.length == 0) {
-            //  serve file
-            response.render("../views/home", { message: message, collection: collection});
-            return
-        } else {
-            var callbacks = results.length;
-            for (let result in results) {
-                connection.query('SELECT * FROM releases WHERE releaseID = ?', [results[result].releaseID], function(error, results) {
-                    if (error) {
-                        throw error;
-                    }
-                    for (let release in results) {
-                        collection.push(results[release]);
-                    }
-                    
-                    callbacks--;
-                    if (callbacks == 0) {
+    var collection = getCollection(request.session.userID);
 
-                        //  sort collection by artist and then title
-                        for (var record of collection) {
-                            record.sortArtist = record.artist;
-                            if (record.sortArtist.startsWith("The ")) {
-                                record.sortArtist = record.sortArtist.substring(4);
-                            }
-                        }
-                                             
-                        collection.sort((a, b) => {
-                            if (a.artist == b.artist) {
-                                return a.title.localeCompare(b.title);
-                            } else {    
-                                return a.sortArtist.localeCompare(b.sortArtist);
-                            }
-                        });
-
-                        //  serve file
-                        response.render("../views/home", { message: message, collection: collection});
-                    }
-                });
-            }
-        }
-    });    
+    //  serve file
+    response.render("../views/home", { message: message, collection: collection});
 });
 
 router.post('/search', (request, response) => {
