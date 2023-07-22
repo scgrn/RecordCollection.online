@@ -1,7 +1,32 @@
 <%- include('./partials/head'); %>
+
+<body class="d-flex flex-column h-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+
 <%- include('./partials/header'); %>
 
-<%- include('./partials/footer'); %>
+            </div>
+        </div>
 
+        <%
+            if (collection.length > 0) {
+                collection.forEach(function(data) {
+        %>
+            <img src="img/covers/<%= data.releaseID %>.jpg"/>
+            <span><%= data.artist %> - <%= data.title %></span>
+        <%
+                });
+            } else {
+        %>
+            <span>Nothing added yet!</span>
+        <%
+            }
+        %>
+    </div>
+
+<%- include('./partials/footer'); %>
+    
     </body>
 </html>

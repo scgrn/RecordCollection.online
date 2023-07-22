@@ -13,6 +13,67 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE
 })
 
+function sortCollection(collection) {
+    //  trim "The " from artist name for sorting
+    for (let record of collection) {
+        record.sortArtist = record.artist;
+        if (record.sortArtist.startsWith("The ")) {
+            record.sortArtist = record.sortArtist.substring(4);
+        }
+    }
+
+    //  sort collection by artist and then title
+    collection.sort((a, b) => {
+        if (a.artist == b.artist) {
+            return a.title.localeCompare(b.title);
+        } else {    
+            return a.sortArtist.localeCompare(b.sortArtist);
+        }
+    });
+}
+
+router.getCollectionByUserID = async(userID, callback) => {
+    //  read user's collection
+    connection.query(`SELECT
+            releases.artist,
+            releases.title,
+            releases.releaseID,
+            collections.dateAdded
+        FROM collections
+        INNER JOIN releases ON (collections.releaseID=releases.releaseID)
+        WHERE collections.userID=?;`, [userID], function(error, results) {
+
+        if (error) {
+            throw error;
+        }
+
+        sortCollection(results);
+
+        callback(results);
+    });
+}
+
+router.getCollectionByUserName = async(userName, callback) => {
+    //  read user's collection
+    connection.query(`SELECT
+            releases.artist,
+            releases.title,
+            releases.releaseID,
+            collections.dateAdded
+        FROM collections
+        INNER JOIN releases ON (collections.releaseID=releases.releaseID)
+        WHERE collections.userID=?;`, [userName], function(error, results) {
+
+        if (error) {
+            throw error;
+        }
+
+        sortCollection(results);
+
+        callback(results);
+    });
+}
+
 router.get('/add', (request, response) => {
     if (!request.session.loggedIn) {
         response.redirect('/');
@@ -105,7 +166,10 @@ router.get('/remove', (request, response) => {
 });
 
 router.get('/:id', (request, response) => {
-    response.send('Get page for user ' + (request.params.id));
+    var collection = collectionRouter.getCollectionByUserName(request.params.id, (collection) => {
+        //  serve file
+        response.render("../views/collection", { collection: collection});
+    });
 });
 
 module.exports = router;

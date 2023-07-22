@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 
-// http://localhost/
 app.get('/', (request, response) => {
     // redirect to HOME if user is logged in
     if (request.session.loggedIn) {
@@ -29,13 +28,13 @@ app.get('/', (request, response) => {
     response.render("index");
 });
 
-const userRouter = require('./routes/users.js');
+userRouter = require('./routes/users.js');
 app.use('/', userRouter);
 
-const panelRouter = require('./routes/panel.js');
+panelRouter = require('./routes/panel.js');
 app.use('/', panelRouter);
 
-const collectionRouter = require('./routes/collection.js');
+collectionRouter = require('./routes/collection.js');
 app.use('/', collectionRouter);
 
 // start server

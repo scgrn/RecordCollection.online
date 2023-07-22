@@ -13,46 +13,6 @@ const connection = mysql.createConnection({
     database: process.env.DATABASE
 })
 
-const getCollection = async(user, callback) => {
-    //  read user's collection
-    connection.query(`SELECT
-            releases.artist,
-            releases.title,
-            releases.releaseID,
-            collections.dateAdded
-        FROM collections
-        INNER JOIN releases ON (collections.releaseID=releases.releaseID)
-        WHERE collections.userID=?;`, [user], function(error, results) {
-
-        if (error) {
-            throw error;
-        }
-
-        if (results.length == 0) {
-            //  serve file
-            response.render("../views/home", { message: message, collection: collection});
-            return
-        } else {
-            //  sort collection by artist and then title
-            for (let record of results) {
-                record.sortArtist = record.artist;
-                if (record.sortArtist.startsWith("The ")) {
-                    record.sortArtist = record.sortArtist.substring(4);
-                }
-            }
-
-            results.sort((a, b) => {
-                if (a.artist == b.artist) {
-                    return a.title.localeCompare(b.title);
-                } else {    
-                    return a.sortArtist.localeCompare(b.sortArtist);
-                }
-            });
-            callback(results);
-        }
-    });
-}
-
 router.get('/home', (request, response) => {
     if (!request.session.loggedIn) {
         response.redirect('/'); // bye now
@@ -68,9 +28,9 @@ router.get('/home', (request, response) => {
         message = 'Welcome back, ' + request.session.username + '!';
     }
 
-    var collection = getCollection(request.session.userID, (collection) => {
+    var collection = collectionRouter.getCollectionByUserID(request.session.userID, (collection) => {
         //  serve file
-        response.render("../views/home", { message: message, collection: collection});
+        response.render("../views/home", { message: message, userName: request.session.username, collection: collection});
     });
 });
 
