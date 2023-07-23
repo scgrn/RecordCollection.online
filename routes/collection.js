@@ -59,10 +59,12 @@ router.getCollectionByUserName = async(userName, callback) => {
             releases.artist,
             releases.title,
             releases.releaseID,
-            collections.dateAdded
+            collections.dateAdded,
+            users.id
         FROM collections
         INNER JOIN releases ON (collections.releaseID=releases.releaseID)
-        WHERE collections.userID=?;`, [userName], function(error, results) {
+        INNER JOIN users ON (users.username=?)
+        WHERE collections.userID=users.id;`, [userName], function(error, results) {
 
         if (error) {
             throw error;
