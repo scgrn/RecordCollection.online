@@ -59,8 +59,7 @@ router.getCollectionByUserName = async(userName, callback) => {
             releases.artist,
             releases.title,
             releases.releaseID,
-            collections.dateAdded,
-            users.id
+            collections.dateAdded
         FROM collections
         INNER JOIN releases ON (collections.releaseID=releases.releaseID)
         INNER JOIN users ON (users.username=?)
