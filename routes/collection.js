@@ -17,7 +17,7 @@ function sortCollection(collection) {
     //  trim "The " from artist name for sorting
     for (let record of collection) {
         record.sortArtist = record.artist;
-        if (record.sortArtist.startsWith("The ")) {
+        if (record.sortArtist.toUpperCase().startsWith("THE ")) {
             record.sortArtist = record.sortArtist.substring(4);
         }
     }
@@ -166,10 +166,21 @@ router.get('/remove', (request, response) => {
     });
 });
 
-router.get('/:id', (request, response) => {
-    var collection = collectionRouter.getCollectionByUserName(request.params.id, (collection) => {
-        //  serve file
-        response.render("../views/collection", { collection: collection});
+router.get('/:username', (request, response) => {
+    connection.query('SELECT * FROM users WHERE username = ?', [request.params.username], function(error, results) {
+        if (error) {
+            throw error;
+        }
+        
+        // check if the account exists
+        if (results.length > 0) {
+            var collection = collectionRouter.getCollectionByUserName(request.params.username, (collection) => {
+                //  serve file
+                response.render("../views/collection", { collection: collection});
+            });
+        } else {
+            // TODO: 404
+        }
     });
 });
 
