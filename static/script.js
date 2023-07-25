@@ -6,11 +6,11 @@ function initPasswordToggle(inputId, eyeId) {
     const passwordInput = document.querySelector(inputId)
     const eye = document.querySelector(eyeId)
 
-    eye.addEventListener("click", function(){
+    eye.addEventListener("click", function() {
         this.classList.toggle("fa-eye-slash")
         const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
         passwordInput.setAttribute("type", type)
-    })            
+    });
 }
 
 function register(event) {
@@ -23,6 +23,7 @@ function login(event) {
     clearTimeout(timeoutID);
     
     var status =  document.getElementById("status");
+    status.classList.remove("error");
     status.innerHTML = "Please wait...";
 
     var form = document.getElementById("loginForm");
