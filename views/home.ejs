@@ -3,6 +3,24 @@
 <body class="d-flex flex-column h-100">
     <script src="./search.js"></script>
 
+    <script>
+        function openOverlay() {
+            document.getElementById("qr-overlay").style.display = "block";
+        }
+
+        function closeOverlay() {
+            document.getElementById("qr-overlay").style.display = "none";
+        }
+    </script>
+    
+    <div id="qr-overlay" class="qr-overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeOverlay()">&times;</a>
+        <div class="overlay-content">
+            <img class="qr" src="img/qrCodes/<%= userName %>.svg"/>
+            <p style="margin-top: 160px;">https://RecordCollection.online/<%= userName %></p>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -14,7 +32,7 @@
         <a href="./<%= userName %>">View your collection</a><br/>
         <a href="">Browse a random collection</a><br/>
         <br/>
-        <a href="">Share collection with QR code</a><br/>
+        <a href="javascript:openOverlay();">Share collection with QR code</a><br/>
         <a href="">Account settings</a><br/>
         <a href="/logout">Log out</a><br/>
         <br/>

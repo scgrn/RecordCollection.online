@@ -28,6 +28,11 @@ router.get('/home', (request, response) => {
         message = 'Welcome back, ' + request.session.username + '!';
     }
 
+    //  generate user's QR code if it doesn't exist
+    if (!fs.existsSync("./static/img/qrCodes/" + request.session.username + ".svg")) {
+        userRouter.generateQRcode(request.session.username);
+    }
+    
     var collection = collectionRouter.getCollectionByUserID(request.session.userID, (collection) => {
         //  serve file
         response.render("../views/home", { message: message, userName: request.session.username, collection: collection});

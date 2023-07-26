@@ -29,7 +29,7 @@ const connection = mysql.createConnection({
 
 const router = express.Router();
 
-function generateQRcode(username) {
+router.generateQRcode = (username) => {
     console.log("Generate QR code for user: " + username);
 
     var QRCode = require("qrcode-svg");
@@ -42,7 +42,7 @@ function generateQRcode(username) {
         background: "#ffffff",
         ecl: "M",
     });
-    qrcode.save(username + ".svg", function(error) {
+    qrcode.save("./static/img/qrCodes/" + username + ".svg", function(error) {
         if (error) {
             throw error;
         }
