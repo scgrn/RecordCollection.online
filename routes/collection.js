@@ -176,7 +176,7 @@ router.get('/:username', (request, response) => {
         if (results.length > 0) {
             var collection = collectionRouter.getCollectionByUserName(request.params.username, (collection) => {
                 //  serve file
-                response.render("../views/collection", { collection: collection});
+                response.render("../views/collection", { username: request.params.username, collection: collection});
             });
         } else {
             // TODO: 404
