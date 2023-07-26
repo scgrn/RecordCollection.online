@@ -9,16 +9,21 @@
 
             </div>
         </div>
-
+    </div>
+    
+    <div class="container collection">
         <% if (collection.length > 0) { %>
             <% for (var i = 0; i < collection.length; i++) { %>
                 <% if (i === 0 || i % 3 === 0) { %>
                     <div class="row">
                 <% } %>
-                <div class="col-md-4">
-                    <img class="img-responsive" src="img/covers/<%= collection[i].releaseID %>.jpg"/>
+                <div class="col-md-4 my-4 text-center">
+                    <img class="img-responsive cover" src="img/covers/<%= collection[i].releaseID %>.jpg"/>
                     <p><span><%= collection[i].artist %> - </span><span><i><%= collection[i].title %></i></span></p>
                 </div>
+                <% if (i % 3 === 2 || i === collection.length - 1) { %>
+                    </div>
+                <% } %>
             <% } %>
         <% } else { %>
             <span>Nothing added yet!</span>

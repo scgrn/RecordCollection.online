@@ -22,10 +22,16 @@ table {
     backdrop-filter: blur(10px) brightness(50%);
 }
 
-img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
+.collection {
+    backdrop-filter: blur(10px) brightness(50%);
+    border: 1px solid white;
+    
+    padding-top: 25px;
+}
+
+.cover {
+    width: 80%;
+    margin-bottom: 20px;
 }
 
 h1 {
