@@ -1,3 +1,16 @@
+:root {
+    --main-bg-color: #031113;
+    --main-text-color: #00d0cc;
+    --main-highlight-color: #ff00ff; /* #47ffb3; */
+    --main-error-color: #ff3344;
+}
+
+.accordion {
+    backdrop-filter: blur(10px) brightness(50%);
+    
+    --bs-accordion-active-bg: #000000;
+}
+
 * {
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
@@ -13,13 +26,28 @@ body {
     background-position: center;
     background-attachment: fixed;
 
-    color: white;
+    color: var(--main-text-color);
 
     overflow-x: hidden;
 }
 
 table {
     backdrop-filter: blur(10px) brightness(50%);
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: var(--main-highlight-color) !important;
+}
+
+a:hover, a:active {
+    color: var(--main-highlight-color) !important;
+    text-shadow: -0.5px 0, 0 0.5px, 0.5px 0, 0 -0.5px;
+}
+
+.accordion .accordion-header .accordion-item .accordion-body {
+    color: rgba(0, 0, 0, 0) !important;
+    backdrop-filter: blur(10px) brightness(50%) !important;
 }
 
 .collection {
@@ -77,7 +105,6 @@ th, td {
     transform: scale(2.0);
 }
 
-/* The Overlay (background) */
 .qr-overlay {
     height: 100%;
     width: 100%;
