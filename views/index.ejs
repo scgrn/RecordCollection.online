@@ -34,7 +34,7 @@
                 </h4>
                 <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <form id="registerForm" action="/register" method="post" autocomplete="off">
+                        <form id="registerForm"">
                             <div>
                                 <label for="registerUsername">
                                     <i class="fas fa-user"></i>
@@ -72,6 +72,7 @@
                             <div>
                                 <input type="submit" value="Register" onclick="register(event)">
                             </div>
+                            <div id="registerStatus" class="m-2">&nbsp;</div>
                         </form>
                     </div>
                 </div>
@@ -105,7 +106,7 @@
                             <div>
                                 <input type="submit" value="Log in" onclick="login(event)">
                             </div>
-                            <div id="status" class="m-2">&nbsp;</div>
+                            <div id="loginStatus" class="m-2">&nbsp;</div>
                         </form>
                         <a href="">Trouble logging in?</a>
                     </div>

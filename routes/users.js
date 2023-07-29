@@ -55,8 +55,17 @@ router.post('/register', function(request, response) {
     let password = request.body.password;
     let confirmPassword = request.body.confirmPassword;
     
+    console.log("username: " + username);
+    console.log("email: " + email);
+    console.log("password: " + password);
+    console.log("confirmPassword: " + confirmPassword);
+    
+    //  TODO: check password meets requirements (minimum length, etc)
+    
+    //  TODO: check email looks like an email
+    
     if (password != confirmPassword) {
-        response.send('Passwords do not match');
+        response.send({message: 'Passwords do not match', code: 1});
         response.end();
         
         return;
@@ -64,7 +73,7 @@ router.post('/register', function(request, response) {
     
     const restricted = ["add", "remove", "admin", "contact", "img", "auth", "register", "logout", "test"];
     if (restricted.includes(username)) {
-        response.send('Username not available');
+        response.send({message: 'Username not available', code: 1});
         response.end();
 
         return;
@@ -77,12 +86,14 @@ router.post('/register', function(request, response) {
         
         // check if the account exists
         if (results.length > 0) {
-            response.send('Username not available');
+            response.send({message: 'Username not available', code: 1});
             response.end();
         } else {
             bcrypt.hash(password, 10, function(err, hash) {
                 // store hash in the database
                 console.log(hash);
+                
+                // TODO: send email 
             });
         }
     });

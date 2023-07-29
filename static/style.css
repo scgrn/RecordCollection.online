@@ -35,6 +35,10 @@ table {
     backdrop-filter: blur(10px) brightness(50%);
 }
 
+td {
+    color: var(--main-text-color) !important;
+}
+
 a:link, a:visited {
     text-decoration: none;
     color: var(--main-highlight-color) !important;
