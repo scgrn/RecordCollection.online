@@ -129,8 +129,23 @@ function login(event) {
     });
 }
 
+function inputFilter(event) {
+    let regEx = /[A-Za-z0-9-_]/;
+    if (this.value.length == 0) {
+        regEx = /[A-Za-z]/;
+    }
+    
+    let symbol = String.fromCharCode(event.keyCode);
+    if (!regEx.test(symbol) && event.keyCode != 13) {
+        event.preventDefault();
+    }
+}
+        
 document.addEventListener("DOMContentLoaded", function() {
     initPasswordToggle("#registerPassword", "#registerEye");
     initPasswordToggle("#registerConfirmPassword", "#registerConfirmEye");
     initPasswordToggle("#loginPassword", "#loginEye");
+
+    document.getElementById('registerUsername').addEventListener('keypress', inputFilter);
+    document.getElementById('loginUsername').addEventListener('keypress', inputFilter);
 });
