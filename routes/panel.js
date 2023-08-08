@@ -45,7 +45,7 @@ router.get('/manage', (request, response) => {
         return;
     }
 
-    response.render("../views/manage", { userName: request.session.username, dateCreated: request.session.dateCreated});
+    response.render("../views/manage", { userName: request.session.username, dateCreated: request.session.dateCreated.slice(0, 10)});
 });
 
 router.post('/search', (request, response) => {

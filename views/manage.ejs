@@ -4,24 +4,36 @@
     
     <div class="container">
         <div class="row">
-        <div class="col-md-8 offset-md-2">
+            <div class="col-md-8 offset-md-2">
         
 <%- include('./partials/header'); %>
-
-        <p>Manage account</p>
-
-        <p>
-        User name: <%= userName %><br/>
-        Created: <%= dateCreated %>
-        </p>
-
-        <p>
-        <a href="/logout">Log out</a><br/>
-        <a href="">Change password</a><br/>
-        <a href="">Delete account</a>
-        </p>
-        
+            
+            </div>
         </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 offset-md-2">
+                <a href="/home"><i class="fa-solid fa-left-long"></i> Home</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+
+                <p><h4>Manage account:</h4></p>
+
+                <p>
+                User name: <%= userName %><br/>
+                Created: <%= dateCreated %>
+                </p>
+
+                <p>
+                <a href="/logout">Log out</a><br/>
+                <a href="">Change password</a><br/>
+                <a href="">Delete account</a>
+                </p>
+
+            </div>
         </div>
     </div>
 
