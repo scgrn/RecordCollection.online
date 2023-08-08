@@ -120,6 +120,7 @@ router.post('/auth', function(request, response) {
                         request.session.loggedIn = true;
                         request.session.username = username;
                         request.session.userID = results[0].id;
+                        request.session.dateCreated = results[0].dateCreated;
 
                         //  redirect to home page
                         response.redirect('/home');

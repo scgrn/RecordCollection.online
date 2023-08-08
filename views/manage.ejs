@@ -1,0 +1,30 @@
+<%- include('./partials/head'); %>
+
+    <body class="d-flex flex-column h-100">
+    
+    <div class="container">
+        <div class="row">
+        <div class="col-md-8 offset-md-2">
+        
+<%- include('./partials/header'); %>
+
+        <p>Manage account</p>
+
+        <p>
+        User name: <%= userName %><br/>
+        Created: <%= dateCreated %>
+        </p>
+
+        <p>
+        <a href="/logout">Log out</a><br/>
+        <a href="">Change password</a><br/>
+        <a href="">Delete account</a>
+        </p>
+        
+        </div>
+        </div>
+    </div>
+
+<%- include('./partials/footer'); %>
+    </body>
+</html>

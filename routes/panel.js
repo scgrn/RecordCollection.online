@@ -39,6 +39,15 @@ router.get('/home', (request, response) => {
     });
 });
 
+router.get('/manage', (request, response) => {
+    if (!request.session.loggedIn) {
+        response.redirect('/'); // bye now
+        return;
+    }
+
+    response.render("../views/manage", { userName: request.session.username, dateCreated: request.session.dateCreated});
+});
+
 router.post('/search', (request, response) => {
     var Discogs = require('disconnect').Client;
     var dis = new Discogs('RecordCollection.online/1.0', {
