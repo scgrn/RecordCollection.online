@@ -166,6 +166,13 @@ router.get('/remove', (request, response) => {
     });
 });
 
+router.get('/random', (request, response) => {
+    connection.query('SELECT * FROM users', function(error, results) {
+        var index = Math.floor(Math.random() * results.length);
+        response.redirect('/' + results[index].username);
+    });
+});
+
 router.get('/:username', (request, response) => {
     connection.query('SELECT * FROM users WHERE username = ?', [request.params.username], function(error, results) {
         if (error) {
