@@ -29,8 +29,9 @@ CREATE TABLE IF NOT EXISTS collections (
     releaseID int(11) NOT NULL,
 	dateAdded date NOT NULL,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id)4ee
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO users (id, username, password, email, dateCreated) VALUES (1, 'test', '$2y$10$SfhYIDtn.iOuCW7zfoFLuuZHX6lja4lF4XA4JqNmpiH/.P3zB8JCa', 'test@test.com', now());
+-- INSERT INTO users (id, username, password, email, dateCreated) VALUES (1, 'test', '$2y$10$SfhYIDtn.iOuCW7zfoFLuuZHX6lja4lF4XA4JqNmpiH/.P3zB8JCa', 'test@test.com', now());
+INSERT INTO users (username, password, email, dateCreated) VALUES ('demo', '$2a$10$Wj8g7fDPciK4eQkP1M/QE.xJ1YOJxaO5WGf.sPV4D7ZXHwOJll7Xi', 'test@test.com', now());
 
