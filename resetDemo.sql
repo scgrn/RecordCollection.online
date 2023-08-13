@@ -10,10 +10,10 @@ INSERT INTO collections (userID, releaseID, dateAdded)
 SELECT users.id, releases.releaseID, NOW()
 FROM users
 CROSS JOIN (
-    SELECT 96559 AS releaseID UNION ALL     --  Rickroll
-    SELECT 32287 AS releaseID UNION ALL     --  Trane
     SELECT 24047 AS releaseID UNION ALL     --  Abbey Road
     SELECT 81550 AS releaseID UNION ALL     --  Go-Go's
-    SELECT 5948 AS releaseID                --  MBV
+    SELECT 32287 AS releaseID UNION ALL     --  Coltrane
+    SELECT  5948 AS releaseID UNION ALL     --  MBV
+    SELECT 96559 AS releaseID               --  Rickroll
 ) AS releases
 WHERE users.username = 'demo';
