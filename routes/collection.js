@@ -167,8 +167,33 @@ router.get('/remove', (request, response) => {
 });
 
 router.get('/random', (request, response) => {
-    connection.query('SELECT * FROM users', function(error, results) {
+    connection.query('SELECT DISTINCT u.id, u.username FROM users u JOIN collections c ON u.id = c.userID', function(error, results) {
+        if (request.session["viewedCollections"] == null) {
+            request.session["viewedCollections"] = [];
+        }
+
+        //  clear list if all collections have been viewed
+        var adjustment = request.session.userID ? 1 : 0;
+        if (request.session["viewedCollections"].length == results.length - adjustment) {
+            request.session["viewedCollections"] = [];
+        }
+        
+        //  remove viewed collections from the results list
+        for (var i = results.length - 1; i >= 0; i--) {
+            if (request.session["viewedCollections"].includes(results[i].id)) {
+                results.splice(i, 1);
+            } else {
+                //  remove logged in user from results
+                if (results[i].id == request.session.userID) {
+                    results.splice(i, 1);
+                }
+            }
+        }
+
+        //  choose a user at random and add to the list of viewed collections
         var index = Math.floor(Math.random() * results.length);
+        request.session["viewedCollections"].push(results[index].id);
+
         response.redirect('/' + results[index].username);
     });
 });
