@@ -1,6 +1,6 @@
 CREATE DATABASE recordcollection;
 
-USE recordcollection;
+USE recordcollection_online;
 
 CREATE TABLE IF NOT EXISTS users (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS collections (
     releaseID int(11) NOT NULL,
 	dateAdded date NOT NULL,
 
-    PRIMARY KEY (id)4ee
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- INSERT INTO users (id, username, password, email, dateCreated) VALUES (1, 'test', '$2y$10$SfhYIDtn.iOuCW7zfoFLuuZHX6lja4lF4XA4JqNmpiH/.P3zB8JCa', 'test@test.com', now());

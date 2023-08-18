@@ -1,4 +1,4 @@
-USE recordcollection;
+USE recordcollection_online;
 
 -- clear collection for user "demo"
 DELETE r.* FROM collections r
