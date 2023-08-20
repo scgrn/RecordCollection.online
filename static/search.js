@@ -31,13 +31,20 @@ function search(event) {
                 resultList = "<table class='table table-bordered'>";
 
                 for (let result in data) {
-                    resultList += `
-                        <tr>
-                            <td><img src="${data[result].thumbnail}" style="width: 75%; height: 75%"/></td>
-                            <td>${data[result].title}</td>
-                            <td><a href="./add?id=${data[result].id}&coverImage=${data[result].coverImage}">Add to collection</a></td>
-                        </tr>
-                    `;
+                    console.log(data[result].title + " - " + data[result].inCollection);
+                    
+                    let row = `<tr>
+                        <td><img src="${data[result].thumbnail}" style="width: 75%; height: 75%"/></td>
+                        <td>${data[result].title}</td>`;
+                            
+                    if (data[result].inCollection) {
+                        row += `<td>In collection</td>`;
+                    } else {
+                        row += `<td><a href="./add?id=${data[result].id}&coverImage=${data[result].coverImage}">Add to collection</a></td>`;
+                    }
+                    row += "</tr>";
+
+                    resultList += row;
                 }
             }
             

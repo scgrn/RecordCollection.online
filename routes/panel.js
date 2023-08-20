@@ -58,37 +58,49 @@ router.post('/search', (request, response) => {
     var results = [];
     var promises = [];
 
-    var db = dis.database();
+    var collection = collectionRouter.getCollectionByUserID(request.session.userID, (collection) => {
+        var db = dis.database();
+        db.search(request.body.searchTerms, {type: "master"}).then((data) => {
+            for (let result in data.results) {
+                let filename = "./static/img/thumbnails/" + data.results[result].master_id + ".jpg";
 
-    db.search(request.body.searchTerms, {type: "master"}).then((data) => {
-        for (let result in data.results) {
-            let filename = "./static/img/thumbnails/" + data.results[result].master_id + ".jpg";
+                // check if thumbnail has already been downloaded
+                if (!fs.existsSync(filename)) {
+                    let thumbnailPromise = db.getImage(data.results[result].thumb);
+                    promises.push(thumbnailPromise);
 
-            // check if thumbnail has already been downloaded
-            if (!fs.existsSync(filename)) {
-                let thumbnailPromise = db.getImage(data.results[result].thumb);
-                promises.push(thumbnailPromise);
-
-                thumbnailPromise.then((thumbnailData) => {
-                    fs.writeFileSync(filename, thumbnailData, 'binary');
+                    thumbnailPromise.then((thumbnailData) => {
+                        fs.writeFileSync(filename, thumbnailData, 'binary');
+                    });
+                }
+                
+                let inCollection = false;
+                collection.forEach((record) => {
+                    if (record.releaseID == data.results[result].master_id) {
+                        inCollection = true;
+                    }
+                });
+                
+                results.push({
+                    id: data.results[result].master_id,
+                    title: data.results[result].title,
+                    thumbnail: "img/thumbnails/" + data.results[result].master_id + ".jpg",
+                    coverImage: data.results[result].cover_image,
+                    inCollection: inCollection
                 });
             }
-            results.push({
-                id: data.results[result].master_id,
-                title: data.results[result].title,
-                thumbnail: "img/thumbnails/" + data.results[result].master_id + ".jpg",
-                coverImage: data.results[result].cover_image,
+        }).then(() => {
+            //  wait for all thumbnails to download
+            Promise.all(promises).then(() => {
+                var json = JSON.stringify(results);
+                
+                console.log(results);
+                
+                response.send(json);
+                response.end();
             });
-        }
-    }).then(() => {
-        //  wait for all thumbnails to download
-        Promise.all(promises).then(() => {
-            var json = JSON.stringify(results);
-            
-            response.send(json);
-            response.end();
-        });
-    }).catch((error) => console.log(error));
+        }).catch((error) => console.log(error));
+    });
 });
 
 module.exports = router;
