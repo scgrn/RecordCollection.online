@@ -146,6 +146,7 @@ router.post('/auth', function(request, response) {
 router.get('/logout', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
+    request.session.userID = null;
 
     response.redirect('/');
 });
