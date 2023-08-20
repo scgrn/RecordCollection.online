@@ -1,4 +1,4 @@
-CREATE DATABASE recordcollection;
+CREATE DATABASE recordcollection_online;
 
 USE recordcollection_online;
 
