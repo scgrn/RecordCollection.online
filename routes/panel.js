@@ -94,8 +94,6 @@ router.post('/search', (request, response) => {
             Promise.all(promises).then(() => {
                 var json = JSON.stringify(results);
                 
-                console.log(results);
-                
                 response.send(json);
                 response.end();
             });
