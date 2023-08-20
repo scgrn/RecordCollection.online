@@ -1,11 +1,16 @@
 USE recordcollection_online;
 
--- clear collection for user "demo"
+-- get current size of collection for user "demo"
+SELECT COUNT(*) FROM collections r
+INNER JOIN users u ON (u.id=r.userID)
+WHERE (u.username='demo');
+
+-- clear collection
 DELETE r.* FROM collections r
 INNER JOIN users u ON (u.id=r.userID)
 WHERE (u.username='demo');
 
---  populate with a few albums
+-- populate with a few albums
 INSERT INTO collections (userID, releaseID, dateAdded)
 SELECT users.id, releases.releaseID, NOW()
 FROM users
@@ -17,3 +22,4 @@ CROSS JOIN (
     SELECT 96559 AS releaseID               --  Rickroll
 ) AS releases
 WHERE users.username = 'demo';
+

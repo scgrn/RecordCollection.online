@@ -17,3 +17,5 @@ static/img/qrCodes/*
 .env.production.local
 .env.local
 
+utils/resetDemo.cnf
+
