@@ -118,7 +118,7 @@ router.post('/auth', function(request, response) {
                     if (result) {
                         //  password is valid, authenticate user
                         request.session.loggedIn = true;
-                        request.session.username = username;
+                        request.session.username = results[0].username;
                         request.session.userID = results[0].id;
                         request.session.dateCreated = results[0].dateCreated;
 
