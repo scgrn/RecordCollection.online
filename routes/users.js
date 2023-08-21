@@ -123,7 +123,11 @@ router.post('/register', function(request, response) {
                         // store hash in the database
                         console.log(hash);
                         
-                        // TODO: send email 
+                        // node doesn't have btoa :(
+                        let verificationCode = Buffer.from(Math.random().toString()).toString('base64');
+                        console.log(verificationCode);
+
+                        // send email
                     });
                 }
             });
