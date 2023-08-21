@@ -60,18 +60,14 @@ router.post('/register', function(request, response) {
     console.log("password: " + password);
     console.log("confirmPassword: " + confirmPassword);
     
-    //  TODO: check password meets requirements (minimum length, etc)
-    
-    //  TODO: check email looks like an email
-    
-    if (password != confirmPassword) {
-        response.send({message: 'Passwords do not match', code: 1});
+    //  check username valid
+    if (username.length < 1) {
+        response.send({message: 'Username cannot be blank!', code: 1});
         response.end();
         
         return;
     }
-    
-    const restricted = ["add", "remove", "admin", "contact", "img", "auth", "register", "logout", "test"];
+    const restricted = ["add", "remove", "admin", "contact", "img", "auth", "register", "random", "logout", "test"];
     if (restricted.includes(username)) {
         response.send({message: 'Username not available', code: 1});
         response.end();
@@ -79,21 +75,57 @@ router.post('/register', function(request, response) {
         return;
     }
 
-    connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
+    //  check email looks like an email
+    if (!email.includes('@') || email.length < 3) {
+        response.send({message: 'Invalid email', code: 1});
+        response.end();
+        
+        return;
+    }
+
+    //  check password meets requirements
+    if (password.length < 8) {
+        response.send({message: 'Password must be at least 8 characters', code: 1});
+        response.end();
+        
+        return;
+    }
+    if (password != confirmPassword) {
+        response.send({message: 'Passwords do not match', code: 1});
+        response.end();
+        
+        return;
+    }
+    
+    connection.query('SELECT * FROM users WHERE email = ?', [email], function(error, results, fields) {
         if (error) {
             throw error;
         }
         
-        // check if the account exists
+        //  check if email address is in use
         if (results.length > 0) {
-            response.send({message: 'Username not available', code: 1});
+            response.send({message: 'Email address already in use', code: 1});
             response.end();
+            
+            return;
         } else {
-            bcrypt.hash(password, 10, function(err, hash) {
-                // store hash in the database
-                console.log(hash);
+            connection.query('SELECT * FROM users WHERE username = ?', [username], function(error, results, fields) {
+                if (error) {
+                    throw error;
+                }
                 
-                // TODO: send email 
+                // check if username is taken
+                if (results.length > 0) {
+                    response.send({message: 'Username not available', code: 1});
+                    response.end();
+                } else {
+                    bcrypt.hash(password, 10, function(err, hash) {
+                        // store hash in the database
+                        console.log(hash);
+                        
+                        // TODO: send email 
+                    });
+                }
             });
         }
     });

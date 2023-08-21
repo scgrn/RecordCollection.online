@@ -131,6 +131,12 @@ function login(event) {
 
 function inputFilter(event) {
     let regEx = /[A-Za-z0-9-_]/;
+
+    if (this.value.length >= 32) {
+        event.preventDefault();
+        return;
+    }
+    
     if (this.value.length == 0) {
         regEx = /[A-Za-z]/;
     }
