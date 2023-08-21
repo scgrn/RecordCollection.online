@@ -49,6 +49,37 @@ router.generateQRcode = (username) => {
     });
 }
 
+function sendVerificationEmail(emailAddress, verificationCode) {
+    var nodemailer = require('nodemailer');
+    
+    var transporter = nodemailer.createTransport({
+        host: "smtp.dreamhost.com",
+        port: 465,
+        auth: {
+            user: process.env.EMAIL_LOGIN,
+            pass: process.env.EMAIL_PASSWORD,
+        },
+        secure: true,
+        logger: true,
+        debug: true,
+    });
+    
+    var mailOptions = {
+        from: 'noreply@recordcollection.online',
+        to: emailAddress,
+        subject: 'Complete your RecordCollection.online registration',
+        html: '<a href="">Verification link</a>'
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    }); 
+}
+
 router.post('/register', function(request, response) {
     let username = request.body.username;
     let email = request.body.email;
@@ -127,7 +158,10 @@ router.post('/register', function(request, response) {
                         let verificationCode = Buffer.from(Math.random().toString()).toString('base64');
                         console.log(verificationCode);
 
-                        // TODO: send email
+                        // send email
+                        sendVerificationEmail(email, verificationCode);
+                        
+                        // TODO: write new user to DB
                         
                         response.redirect('/verify');
                     });
