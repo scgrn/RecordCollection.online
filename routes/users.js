@@ -67,7 +67,7 @@ router.post('/register', function(request, response) {
         
         return;
     }
-    const restricted = ["add", "remove", "admin", "contact", "img", "auth", "register", "random", "logout", "test"];
+    const restricted = ["add", "remove", "admin", "contact", "img", "auth", "register", "random", "verify", "logout", "demo", "test"];
     if (restricted.includes(username)) {
         response.send({message: 'Username not available', code: 1});
         response.end();
@@ -127,7 +127,9 @@ router.post('/register', function(request, response) {
                         let verificationCode = Buffer.from(Math.random().toString()).toString('base64');
                         console.log(verificationCode);
 
-                        // send email
+                        // TODO: send email
+                        
+                        response.redirect('/verify');
                     });
                 }
             });
@@ -177,6 +179,10 @@ router.post('/auth', function(request, response) {
         response.json({message: 'Please enter both username and password.', code: 1});
         response.end();
     }
+});
+
+router.get('/verify', function(request, response) {
+    response.render("../views/message", { message: "Check your email for a verification link!"});                 
 });
 
 router.get('/logout', function(request, response) {
