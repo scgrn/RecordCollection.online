@@ -68,7 +68,7 @@ function sendVerificationEmail(emailAddress, verificationCode) {
         from: 'noreply@recordcollection.online',
         to: emailAddress,
         subject: 'Complete your RecordCollection.online registration',
-        html: '<a href="">Verification link</a>'
+        html: '<a href="https://recordcollection.online/verify?code=' + verificationCode + '">Verification link</a>'
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -85,11 +85,6 @@ router.post('/register', function(request, response) {
     let email = request.body.email;
     let password = request.body.password;
     let confirmPassword = request.body.confirmPassword;
-    
-    console.log("username: " + username);
-    console.log("email: " + email);
-    console.log("password: " + password);
-    console.log("confirmPassword: " + confirmPassword);
     
     //  check username valid
     if (username.length < 1) {
@@ -150,20 +145,28 @@ router.post('/register', function(request, response) {
                     response.send({message: 'Username not available', code: 1});
                     response.end();
                 } else {
-                    bcrypt.hash(password, 10, function(err, hash) {
-                        // store hash in the database
-                        console.log(hash);
-                        
-                        // node doesn't have btoa :(
-                        let verificationCode = Buffer.from(Math.random().toString()).toString('base64');
-                        console.log(verificationCode);
+                    // convert a random number to base64 for an activation code 
+                    // node doesn't have btoa :(
+                    let verificationCode = Buffer.from(Math.random().toString()).toString('base64').replace(/=/g, '');
+                    console.log(verificationCode);
 
+                    bcrypt.hash(password, 10, function(err, hash) {
                         // send email
                         sendVerificationEmail(email, verificationCode);
-                        
-                        // TODO: write new user to DB
-                        
-                        response.redirect('/verify');
+
+                        //  write new user to DB
+                        connection.query("INSERT INTO users SET ?", {
+                            username: username,
+                            password: hash,
+                            email: email,
+                            dateCreated: new Date(),
+                            activationCode: verificationCode
+                        }, function(error, results) {
+                            if (error) {
+                                throw error;
+                            }
+                            response.redirect('/verify');
+                        });
                     });
                 }
             });
@@ -188,6 +191,12 @@ router.post('/auth', function(request, response) {
             if (results.length > 0) {
                 bcrypt.compare(password, results[0].password, function(err, result) {
                     if (result) {
+                        // check user is verified
+                        if (results[0].activationCode != '') {
+                            response.redirect('/deny');
+                            return;
+                        }
+
                         //  password is valid, authenticate user
                         request.session.loggedIn = true;
                         request.session.username = results[0].username;
@@ -216,7 +225,37 @@ router.post('/auth', function(request, response) {
 });
 
 router.get('/verify', function(request, response) {
-    response.render("../views/message", { message: "Check your email for a verification link!"});                 
+    let verificationCode = request.query.code;
+    
+    if (verificationCode == undefined) {
+        response.render("../views/message", { message: "Check your email for a verification link!"});                 
+        return;
+    }
+    
+    connection.query('SELECT * FROM users WHERE activationCode = ?', [verificationCode], function(error, results, fields) {
+        if (error) {
+            throw error;
+        }
+        
+        if (results.length > 0) {
+            connection.query('UPDATE users SET activationCode = "" WHERE activationCode= ?', [verificationCode], function(error, results, fields) {
+                if (error) {
+                    throw error;
+                }
+                response.redirect('/welcome');
+            });                
+        } else {
+            response.render("../views/message", { message: "404: NOT FOUND"});                 
+        }
+    });
+});
+
+router.get('/deny', function(request, response) {
+    response.render("../views/message", { message: "Not verified yet - check your email!"});                 
+});
+
+router.get('/welcome', function(request, response) {
+    response.render("../views/message", { message: "You are now verified and can log in!"});                 
 });
 
 router.get('/logout', function(request, response) {
@@ -233,3 +272,4 @@ router.get('/delete', function(request, response) {
 });
 
 module.exports = router;
+
