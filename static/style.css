@@ -34,12 +34,13 @@ body {
 
 .modal-content {
     border-radius: 0;
+    backdrop-filter: blur(10px) brightness(50%);
     background: 0;
     border: 1px solid white;
 }
 
 .modal.modal-zoom.fade:not(.show) .modal-dialog {
-    transform: scale(0.8);
+    transform: scale(0.6);
 }
 
 .btn {
@@ -49,6 +50,11 @@ body {
 .btn-primary {
     background-color: #ff00ff;
     border: none;
+}
+
+.btn-close {
+    color: var(--main-highlight-color) !important;
+    font-size: 60px;
 }
 
 table {

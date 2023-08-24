@@ -6,17 +6,28 @@
     <div class="modal modal-zoom fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete account?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure? This action cannot be undone.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="deleteAccount()" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Delete account</button>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                </div>
+                <% if (userName == "demo") { %>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nice try!</h5>
+                    </div>
+                    <div class="modal-body">
+                        You cannot delete the demo account.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Sorry</button>
+                    </div>
+                <% } else { %>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete account?</h5>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure? This action cannot be undone.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="window.location='/delete'" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Delete account</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                <% } %>
             </div>
         </div>
     </div>

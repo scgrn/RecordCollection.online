@@ -268,8 +268,17 @@ router.get('/logout', function(request, response) {
 });
 
 router.get('/delete', function(request, response) {
-    //  TODO: implement
-    response.redirect('/');
+    connection.query('DELETE FROM users WHERE id = ?', [request.session.userID], function(error, results, fields) {
+    });
+                
+    connection.query('DELETE FROM collections WHERE userID = ?', [request.session.userID], function(error, results, fields) {
+    });
+
+    request.session.loggedIn = false;
+    request.session.username = null;
+    request.session.userID = null;
+
+    response.render("../views/message", { message: "Your account has been deleted."});                 
 });
 
 module.exports = router;
