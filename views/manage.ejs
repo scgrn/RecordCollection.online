@@ -2,6 +2,25 @@
 
     <body class="d-flex flex-column h-100">
     
+    <!-- Modal -->
+    <div class="modal modal-zoom fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete account?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="deleteAccount()" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Delete account</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -24,13 +43,14 @@
 
                 <p>
                 User name: <%= userName %><br/>
+                Email: <%= email %><br/>
                 Created: <%= dateCreated %>
                 </p>
 
                 <p>
                 <a href="/logout">Log out</a><br/>
                 <a href="">Change password</a><br/>
-                <a href="">Delete account</a>
+                <a href="#exampleModal" data-bs-toggle="modal" data-bs-target="">Delete account</a>
                 </p>
 
             </div>
