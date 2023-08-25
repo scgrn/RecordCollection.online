@@ -232,12 +232,12 @@ router.get('/verify', function(request, response) {
         response.render("../views/message", { message: "Check your email for a verification link!"});                 
         return;
     }
-    
+
     connection.query('SELECT * FROM users WHERE activationCode = ?', [verificationCode], function(error, results, fields) {
         if (error) {
             throw error;
         }
-        
+
         if (results.length > 0) {
             connection.query('UPDATE users SET activationCode = "" WHERE activationCode= ?', [verificationCode], function(error, results, fields) {
                 if (error) {
