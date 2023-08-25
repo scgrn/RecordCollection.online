@@ -25,7 +25,7 @@ router.get('/recover', (request, response) => {
     }
 
     //  check if username or email is in database
-    connection.query('SELECT * FROM users WHERE username = ? OR email = ?;', [query, query], function(error, results, fields) {
+    connection.query('SELECT email FROM users WHERE username = ? OR email = ?;', [query, query], function(error, results, fields) {
         if (error) {
             throw error;
         }
@@ -33,6 +33,8 @@ router.get('/recover', (request, response) => {
         if (results.length > 0) {
             // TODO: send email with unhashed token
             //  write hashed token to database
+            
+            console.log(results[0].email);
 
             response.render("../views/message", { message: "Check your email for a recovery link."});
         } else {
