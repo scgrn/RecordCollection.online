@@ -3,12 +3,12 @@
     <body class="d-flex flex-column h-100">
     
     <!-- Modal -->
-    <div class="modal modal-zoom fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal modal-zoom fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <% if (userName == "demo") { %>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nice try!</h5>
+                        <h5 class="modal-title" id="deleteAccountModalLabel">Nice try!</h5>
                     </div>
                     <div class="modal-body">
                         You cannot delete the demo account.
@@ -18,7 +18,7 @@
                     </div>
                 <% } else { %>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete account?</h5>
+                        <h5 class="modal-title" id="deleteAccountModalLabel">Delete account?</h5>
                     </div>
                     <div class="modal-body">
                         Are you sure? This action cannot be undone.
@@ -61,7 +61,7 @@
                 <p>
                 <a href="/logout">Log out</a><br/>
                 <a href="">Change password</a><br/>
-                <a href="#exampleModal" data-bs-toggle="modal" data-bs-target="">Delete account</a>
+                <a href="#deleteAccountModal" data-bs-toggle="modal" data-bs-target="">Delete account</a>
                 </p>
 
             </div>
