@@ -31,6 +31,9 @@ app.get('/', (request, response) => {
 userRouter = require('./routes/users.js');
 app.use('/', userRouter);
 
+recoverRouter = require('./routes/recover.js');
+app.use('/', recoverRouter);
+
 panelRouter = require('./routes/panel.js');
 app.use('/', panelRouter);
 

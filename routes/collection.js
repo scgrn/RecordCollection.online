@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE
-})
+});
 
 function sortCollection(collection) {
     //  trim "The " from artist name for sorting

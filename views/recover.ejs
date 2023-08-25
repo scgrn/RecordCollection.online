@@ -1,0 +1,44 @@
+<%- include('./partials/head'); %>
+
+<body class="d-flex flex-column h-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+
+<%- include('./partials/header'); %>
+
+                <div class="row mb-4">
+                    <a href="/home"><i class="fa-solid fa-left-long"></i> Home</a>
+                </div>
+        
+                <p><h4>Spaced on yer creds?</h4></p>
+<!--
+                <p>Tough shit!</p>
+                <p>jk</p>
+-->
+                <p>Dry your eyes, we'll find a way. Enter your username or email address below and we'll send a recovery link.</p>
+<!--
+                <p>We'll have you back to rocking in no time!</p>
+-->
+                <form id="recoveryForm">
+                    <div>
+                        <label for="loginUsername">
+<!--                            <i class="fas fa-user"></i>-->
+                            <i class="fa-solid fa-circle-question"></i>
+                        </label>
+                        <input type="text" name="query" placeholder="Username or email address" id="query" autocomplete="off" required>
+                    </div>
+                    <br/>
+                    <div>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Send link"">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<%- include('./partials/footer'); %>
+    
+    </body>
+</html>
+
