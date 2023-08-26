@@ -1,6 +1,7 @@
 'use strict';
 
 const mysql = require('mysql');
+const bcrypt = require('bcryptjs');
 
 const express = require('express');
 const router = express.Router();
@@ -31,12 +32,14 @@ router.get('/recover', (request, response) => {
         }
 
         if (results.length > 0) {
-            // TODO: send email with unhashed token
             //  write hashed token to database
-            
-            console.log(results[0].email);
+            let token = Buffer.from(Math.random().toString()).toString('base64').replace(/=/g, '');
 
-            response.render("../views/message", { message: "Check your email for a recovery link."});
+            bcrypt.hash(token, 10, function(err, hash) {
+                // TODO: send email with unhashed token
+            
+                response.render("../views/message", { message: "Check your email for a recovery link."});
+            });
         } else {
             response.render("../views/message", { message: `
                 Neither username or email were found.<br/>

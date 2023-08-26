@@ -148,7 +148,6 @@ router.post('/register', function(request, response) {
                     // convert a random number to base64 for an activation code 
                     // node doesn't have btoa :(
                     let verificationCode = Buffer.from(Math.random().toString()).toString('base64').replace(/=/g, '');
-                    console.log(verificationCode);
 
                     bcrypt.hash(password, 10, function(err, hash) {
                         // send email
@@ -246,17 +245,17 @@ router.get('/verify', function(request, response) {
                 response.redirect('/welcome');
             });                
         } else {
-            response.render("../views/message", { message: "404: NOT FOUND"});                 
+            response.render("../views/message", { message: "404: NOT FOUND"});
         }
     });
 });
 
 router.get('/deny', function(request, response) {
-    response.render("../views/message", { message: "Not verified yet - check your email!"});                 
+    response.render("../views/message", { message: "Not verified yet - check your email!"});
 });
 
 router.get('/welcome', function(request, response) {
-    response.render("../views/message", { message: "You are now verified and can log in!"});                 
+    response.render("../views/message", { message: "You are now verified and can log in!"});
 });
 
 router.get('/logout', function(request, response) {
@@ -278,7 +277,7 @@ router.get('/delete', function(request, response) {
     request.session.username = null;
     request.session.userID = null;
 
-    response.render("../views/message", { message: "Your account has been deleted."});                 
+    response.render("../views/message", { message: "Your account has been deleted."});
 });
 
 module.exports = router;
