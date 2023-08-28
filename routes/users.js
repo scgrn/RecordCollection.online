@@ -202,6 +202,9 @@ router.post('/auth', function(request, response) {
                         request.session.userID = results[0].id;
                         request.session.email = results[0].email;
                         request.session.dateCreated = results[0].dateCreated;
+                        request.session.firstLogin = results[0].firstLogin == 1;
+
+                        console.log(request.session.firstLogin);
 
                         //  redirect to home page
                         response.redirect('/home');
@@ -215,7 +218,7 @@ router.post('/auth', function(request, response) {
                 //  unknown username
                 response.json({message: badLoginMessage, code: 1});
                 response.end();
-            }            
+            }
         });
     } else {
         //  empty field(s)
@@ -268,9 +271,15 @@ router.get('/logout', function(request, response) {
 
 router.get('/delete', function(request, response) {
     connection.query('DELETE FROM users WHERE id = ?', [request.session.userID], function(error, results, fields) {
+        if (error) {
+            throw error;
+        }
     });
                 
     connection.query('DELETE FROM collections WHERE userID = ?', [request.session.userID], function(error, results, fields) {
+        if (error) {
+            throw error;
+        }
     });
 
     request.session.loggedIn = false;

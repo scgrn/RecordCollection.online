@@ -26,18 +26,24 @@ router.get('/recover', (request, response) => {
     }
 
     //  check if username or email is in database
-    connection.query('SELECT email FROM users WHERE username = ? OR email = ?;', [query, query], function(error, results, fields) {
+    connection.query('SELECT id, email FROM users WHERE username = ? OR email = ?;', [query, query], function(error, results, fields) {
         if (error) {
             throw error;
         }
 
         if (results.length > 0) {
-            //  write hashed token to database
             let token = Buffer.from(Math.random().toString()).toString('base64').replace(/=/g, '');
 
             bcrypt.hash(token, 10, function(err, hash) {
+                // write hashed token to DB
+                connection.query('UPDATE users SET recoveryToken = ? WHERE id = ?', [hash, results[0].id], function(error, results, fields) {
+                    if (error) {
+                        throw error;
+                    }
+                });
+
                 // TODO: send email with unhashed token
-            
+
                 response.render("../views/message", { message: "Check your email for a recovery link."});
             });
         } else {

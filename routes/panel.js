@@ -19,15 +19,22 @@ router.get('/home', (request, response) => {
         return;
     }
 
-    // output username
+    // greet user
     var message;
     if (request.session.firstLogin) {
         request.session.firstLogin = false;
         message = 'Hello, ' + request.session.username + '!';
+        
+        connection.query('UPDATE users SET firstLogin = FALSE WHERE id = ?', [request.session.userID], function(error, results, fields) {
+            if (error) {
+                throw error;
+            }
+        });
     } else {
         message = 'Welcome back, ' + request.session.username + '!';
     }
-
+    console.log(message);
+    
     //  generate user's QR code if it doesn't exist
     if (!fs.existsSync("./static/img/qrCodes/" + request.session.username + ".svg")) {
         userRouter.generateQRcode(request.session.username);
