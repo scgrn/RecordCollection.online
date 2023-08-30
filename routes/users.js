@@ -49,26 +49,26 @@ router.generateQRcode = (username) => {
     });
 }
 
-function sendVerificationEmail(emailAddress, verificationCode) {
+function sendEmail(emailAddress, subject, body) {
     var nodemailer = require('nodemailer');
     
     var transporter = nodemailer.createTransport({
-        host: "smtp.dreamhost.com",
-        port: 465,
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
         auth: {
             user: process.env.EMAIL_LOGIN,
             pass: process.env.EMAIL_PASSWORD,
         },
         secure: true,
         logger: true,
-        debug: true,
+        debug: false,
     });
     
     var mailOptions = {
         from: 'noreply@recordcollection.online',
         to: emailAddress,
-        subject: 'Complete your RecordCollection.online registration',
-        html: '<a href="https://recordcollection.online/verify?code=' + verificationCode + '">Verification link</a>'
+        subject: subject,
+        html: body
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -151,7 +151,8 @@ router.post('/register', function(request, response) {
 
                     bcrypt.hash(password, 10, function(err, hash) {
                         // send email
-                        sendVerificationEmail(email, verificationCode);
+                        sendEmail(email, 'Complete your RecordCollection.online registration',
+                            '<a href="https://recordcollection.online/verify?code=' + verificationCode + '">Verification link</a>');
 
                         //  write new user to DB
                         connection.query("INSERT INTO users SET ?", {
@@ -203,8 +204,6 @@ router.post('/auth', function(request, response) {
                         request.session.email = results[0].email;
                         request.session.dateCreated = results[0].dateCreated;
                         request.session.firstLogin = results[0].firstLogin == 1;
-
-                        console.log(request.session.firstLogin);
 
                         //  redirect to home page
                         response.redirect('/home');
