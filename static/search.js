@@ -16,7 +16,7 @@ function search(event) {
 
     var json = JSON.stringify(object);
 
-    fetch('/search', {
+    fetch('/home/search', {
         method: "POST",
         redirect: "follow",
         headers: {

@@ -33,7 +33,7 @@ function register(event) {
 
     var json = JSON.stringify(object);
 
-    fetch('/register', {
+    fetch('/user/register', {
         method: "POST",
         redirect: "follow",
         headers: {
@@ -91,7 +91,7 @@ function login(event) {
 
     var json = JSON.stringify(object);
 
-    fetch('/auth', {
+    fetch('/user/auth', {
         method: "POST",
         redirect: "follow",
         headers: {

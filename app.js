@@ -1,3 +1,5 @@
+// 'use strict';
+
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
@@ -15,7 +17,10 @@ app.use(session({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static(path.join(__dirname, 'static')));
+//app.use(express.static('/', path.join(__dirname, '/static')));
+//app.use(express.static('/users', path.join(__dirname, '/static')));
 
 app.get('/', (request, response) => {
     // redirect to HOME if user is logged in
@@ -28,16 +33,16 @@ app.get('/', (request, response) => {
     response.render("index");
 });
 
-userRouter = require('./routes/users.js');
-app.use('/', userRouter);
+userRouter = require('./routes/user.route.js');
+app.use('/user', userRouter);
 
-recoverRouter = require('./routes/recover.js');
-app.use('/', recoverRouter);
+recoverRouter = require('./routes/recover.route.js');
+app.use('/user', recoverRouter);
 
-panelRouter = require('./routes/panel.js');
-app.use('/', panelRouter);
+homeRouter = require('./routes/home.route.js');
+app.use('/home', homeRouter);
 
-collectionRouter = require('./routes/collection.js');
+collectionRouter = require('./routes/collection.route.js');
 app.use('/', collectionRouter);
 
 // start server
@@ -45,3 +50,4 @@ const port = 80;
 app.listen(port, () => {
     console.log(new Date().toISOString() + " | Server running at port " + port);
 });
+
