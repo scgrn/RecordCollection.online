@@ -189,6 +189,7 @@ router.get('/verify', function(request, response) {
                 response.redirect('/welcome');
             });                
         } else {
+            response.status(404);
             response.render("../views/message", { message: "404: NOT FOUND"});
         }
     });

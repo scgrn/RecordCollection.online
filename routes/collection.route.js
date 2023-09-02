@@ -204,6 +204,7 @@ router.get('/:username', (request, response) => {
                 response.render("../views/collection", { username: request.params.username, collection: collection});
             });
         } else {
+            response.status(404);
             response.render("../views/message", { message: "404: NOT FOUND"});                 
         }
     });
