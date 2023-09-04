@@ -40,7 +40,7 @@ function search(event) {
                     if (data[result].inCollection) {
                         row += `<td>In collection</td>`;
                     } else {
-                        row += `<td><a href="./add?id=${data[result].id}&coverImage=${data[result].coverImage}">Add to collection</a></td>`;
+                        row += `<td><a href="./collection/add?id=${data[result].id}&coverImage=${data[result].coverImage}">Add to collection</a></td>`;
                     }
                     row += "</tr>";
 
