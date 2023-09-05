@@ -45,6 +45,11 @@ app.use('/home', homeRouter);
 collectionRouter = require('./routes/collection.route.js');
 app.use('/', collectionRouter);
 
+app.use((request, response, next) => {
+    response.status(404);
+    response.render("../views/message", { message: "404: NOT FOUND"});
+});
+
 // start server
 const port = 80;
 app.listen(port, () => {

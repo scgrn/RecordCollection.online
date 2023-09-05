@@ -205,7 +205,7 @@ router.get('/:username', (request, response) => {
             });
         } else {
             response.status(404);
-            response.render("../views/message", { message: "404: NOT FOUND"});                 
+            response.render("../views/message", { message: "404: NOT FOUND"});
         }
     });
 });
