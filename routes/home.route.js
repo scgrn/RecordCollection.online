@@ -4,6 +4,7 @@ const express = require('express');
 const generateQRcode = require('../utils/qr.js');
 const connection = require('../utils/db.js');
 const fs = require('fs');
+const path = require('path');
 
 const router = express.Router();
 

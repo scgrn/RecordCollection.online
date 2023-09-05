@@ -3,12 +3,12 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const favicon = require('serve-favicon');
+require('dotenv').config();
 
 const app = express();
 
 app.set('view engine', 'ejs');
-
-require('dotenv').config()
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -18,9 +18,9 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(favicon(path.join(__dirname, 'static', '/favicon.ico')));
+
 app.use(express.static(path.join(__dirname, 'static')));
-//app.use(express.static('/', path.join(__dirname, '/static')));
-//app.use(express.static('/users', path.join(__dirname, '/static')));
 
 app.get('/', (request, response) => {
     // redirect to HOME if user is logged in
