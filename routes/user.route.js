@@ -5,6 +5,7 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const connection = require('../utils/db.js');
+const sendEmail = require('../utils/email.js');
 
 require('dotenv').config()
 
@@ -107,7 +108,7 @@ router.post('/register', function(request, response) {
                             if (error) {
                                 console.error(error.stack);
                             }
-                            response.redirect('/verify');
+                            response.redirect('/user/verify');
                         });
                     });
                 }
@@ -186,7 +187,7 @@ router.get('/verify', function(request, response) {
                 if (error) {
                     console.error(error.stack);
                 }
-                response.redirect('/welcome');
+                response.redirect('/user/welcome');
             });                
         } else {
             response.status(404);

@@ -2,7 +2,7 @@
 
 const nodemailer = require('nodemailer');
 
-sendEmail(emailAddress, subject, body) => {
+var sendEmail = (emailAddress, subject, body) => {
     var transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: process.env.EMAIL_PORT,
@@ -32,3 +32,4 @@ sendEmail(emailAddress, subject, body) => {
 }
 
 module.exports = sendEmail;
+
