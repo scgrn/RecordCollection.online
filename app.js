@@ -33,6 +33,10 @@ app.get('/', (request, response) => {
     response.render("index");
 });
 
+app.get('/privacyPolicy.html', (request, response) => {
+    response.render("privacyPolicy");
+});
+
 userRouter = require('./routes/user.route.js');
 app.use('/user', userRouter);
 
