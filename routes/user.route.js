@@ -94,8 +94,22 @@ router.post('/register', function(request, response) {
 
                     bcrypt.hash(password, 10, function(err, hash) {
                         // send email
-                        sendEmail(email, 'Complete your RecordCollection.online registration',
-                            '<a href="https://recordcollection.online/verify?code=' + verificationCode + '">Verification link</a>');
+                        var url = 'https://recordcollection.online/user/verify?code=' + verificationCode;
+                        sendEmail(email, 'Welcome to RecordCollection.online | Account Successfully Created',
+                            `
+<h3>Welcome to RecordCollection.online</h3>
+<p>Greetings</p>
+<p>
+Your account has been successfully created! To verify your email address and complete your account creation, 
+please click the verification link below or copy and paste the address into your browser:
+</p>
+<p>
+<a href=${url}>VERIFY ACCOUNT</a>
+</p>
+<p>
+${url}
+</p>
+                            `);
 
                         //  write new user to DB
                         connection.query("INSERT INTO users SET ?", {
