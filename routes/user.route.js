@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const path = require('path');
 const connection = require('../utils/db.js');
 const sendEmail = require('../utils/email.js');
+const ejs = require("ejs");
 
 require('dotenv').config()
 
@@ -95,34 +96,25 @@ router.post('/register', function(request, response) {
                     bcrypt.hash(password, 10, function(err, hash) {
                         // send email
                         var url = 'https://recordcollection.online/user/verify?code=' + verificationCode;
-                        sendEmail(email, 'Welcome to RecordCollection.online | Account Successfully Created',
-                            `
-<h3>Welcome to RecordCollection.online</h3>
-<p>Greetings</p>
-<p>
-Your account has been successfully created! To verify your email address and complete your account creation, 
-please click the verification link below or copy and paste the address into your browser:
-</p>
-<p>
-<a href=${url}>VERIFY ACCOUNT</a>
-</p>
-<p>
-${url}
-</p>
-                            `);
-
-                        //  write new user to DB
-                        connection.query("INSERT INTO users SET ?", {
+                        ejs.renderFile(path.join(__dirname, "../views/email/verify.email.ejs"), {
                             username: username,
-                            password: hash,
-                            email: email,
-                            dateCreated: new Date(),
-                            activationCode: verificationCode
-                        }, function(error, results) {
-                            if (error) {
-                                console.error(error.stack);
-                            }
-                            response.redirect('/user/verify');
+                            url: url
+                        }).then(result => {
+                            sendEmail(email, 'Welcome to RecordCollection.online | Account Successfully Created', result);
+
+                            //  write new user to DB
+                            connection.query("INSERT INTO users SET ?", {
+                                username: username,
+                                password: hash,
+                                email: email,
+                                dateCreated: new Date(),
+                                activationCode: verificationCode
+                            }, function(error, results) {
+                                if (error) {
+                                    console.error(error.stack);
+                                }
+                                response.redirect('/user/verify');
+                            });
                         });
                     });
                 }
