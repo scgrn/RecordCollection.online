@@ -4,9 +4,6 @@
         <meta name="viewport" content="width=device-width">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Account Verification Email</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
         <style>
             @media only screen and (max-width: 620px) {
             table[class=body] h1 {
@@ -88,7 +85,7 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; width: 100%;">
                             <tr>
                                 <td width="100%" style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">
-                                    <a class="logo" href="https://recordcollection.online" style="color: #ff00ff; text-decoration: none; font-family: 'Righteous'; font-size: 2.5em;">RecordCollection.online</a>
+                                    <a href="https://recordcollection.online" style="color: #ff00ff; text-decoration: none;"><img src="https://recordcollection.online/logo.png" height="49" alt="RecordCollection.online" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;"></a>
                                 </td>
                             </tr>
                         </table>
@@ -125,7 +122,10 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;"><%= url %></p>
+                                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
+                                                    <a href='<%= url %>' style='text-decoration: none; color:#ff00ff'><%= url %></a>
+                                                </p>
+                                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">Thank you!</p>
                                             </td>
                                         </tr>
                                     </table>
