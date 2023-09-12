@@ -37,6 +37,7 @@ router.get('/', (request, response) => {
 
     //  serve file
     var collection = collectionRouter.getCollectionByUserID(request.session.userID, (collection) => {
+        request.session.numAlbums = collection.length;
         response.render("../views/home", { message: message, userName: request.session.username, collection: collection});
     });
 });
