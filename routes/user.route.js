@@ -142,7 +142,7 @@ router.post('/auth', function(request, response) {
                     if (result) {
                         // check user is verified
                         if (results[0].activationCode != '') {
-                            response.redirect('/deny');
+                            response.redirect('/user/unverified');
                             return;
                         }
 
@@ -202,8 +202,8 @@ router.get('/verify', function(request, response) {
     });
 });
 
-router.get('/deny', function(request, response) {
-    response.render("../views/message", { message: "Not verified yet - check your email!"});
+router.get('/unverified', function(request, response) {
+    response.render("../views/message", { message: "Account not verified yet - check your email!"});
 });
 
 router.get('/welcome', function(request, response) {
