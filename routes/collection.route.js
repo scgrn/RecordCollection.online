@@ -165,7 +165,7 @@ router.get('/collection/random', (request, response) => {
         if (request.session["viewedCollections"] == null) {
             request.session["viewedCollections"] = [];
         }
-        
+
         //  clear list if all collections have been viewed
         var adjustment = (request.session.userID && request.session.numAlbums > 0) ? 1 : 0;
         if (request.session["viewedCollections"].length == results.length - adjustment) {
