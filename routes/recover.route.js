@@ -52,7 +52,7 @@ router.get('/recover', (request, response) => {
         } else {
             response.render("../views/message", { message: `
                 Neither username or email were found.<br/>
-                <a href="/recover">Try again</a>
+                <a href="/user/recover">Try again</a>
             `});
         }
     });
