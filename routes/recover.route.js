@@ -15,6 +15,14 @@ router.get('/recover', (request, response) => {
         return;
     }
 
+    let token = request.query.token;
+    if (token) {
+        // compute hash
+        // check if hashed token is in DB
+        // 404 if not
+        // show reset password form
+    }
+    
     let query = request.query.query;
     if (!query) {
         response.render("../views/recover");
