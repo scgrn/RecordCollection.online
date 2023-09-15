@@ -16,11 +16,6 @@ function initPasswordToggle(inputId, eyeId) {
     }
 }
 
-function changePassword(event) {
-    event.preventDefault();
-    alert("Change password");
-};
-
 function register(event) {
     event.preventDefault();
 
@@ -136,6 +131,61 @@ function login(event) {
         });
     });
 }
+
+function changePassword(event) {
+    event.preventDefault();
+    clearTimeout(timeoutID);
+    
+    var status =  document.getElementById("status");
+    status.classList.remove("error");
+    status.innerHTML = "Please wait...";
+
+    var form = document.getElementById("resetPasswordForm");
+    const formData = new FormData(form);
+
+    var object = {};
+    formData.forEach((value, key) => {
+        object[key] = value;
+    });
+
+    var json = JSON.stringify(object);
+
+    fetch('/user/changePassword', {
+        method: "POST",
+        redirect: "follow",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: json
+    }).then(async (response) => {
+        response.clone().json().then((data) => {
+            status.innerHTML = data.message;
+
+            if (data.code == 0) {
+                status.classList.remove("error");
+                form.reset();
+
+                setTimeout(() => {
+                    var element = document.getElementById("reset-password");
+                    var collapse = new bootstrap.Collapse(element);
+                    collapse.hide();
+                }, 3500);
+            } else {
+                status.classList.add("error");
+            }
+        }).catch((error) => {
+            console.log(error);
+            status.classList.add("error");
+            status.innerHTML = "Something went wrong!";
+        }).then(function () {
+            timeoutID = setTimeout(() => {
+                status.classList.remove("error");
+                status.innerHTML = "&nbsp;";
+            }, 3500);
+        });
+    });
+};
 
 function inputFilter(event) {
     let regEx = /[A-Za-z0-9-_]/;
