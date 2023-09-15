@@ -60,9 +60,9 @@
 
                 <p>
                 <a href="/user/logout">Log out</a><br/>
-                <a href="">Change password</a><br/>
-                <div style="display: none;">                
-                    <form id="registerForm"">
+                <a href="#reset-password" data-bs-toggle="collapse">Change password</a><br/>
+                <div id="reset-password" class="collapse">                
+                    <form id="resetPasswordForm"">
                         <div class="password-container">
                             <label for="registerPassword">
                                 <i class="fas fa-lock"></i>
@@ -71,7 +71,7 @@
                             <i class="fas fa-eye" id="registerEye"></i>
                         </div>
 
-                        <div class="password-container">
+                        <div class="password-container ">
                             <label for="registerConfirmPassword">
                                 <i class="fas fa-lock"></i>
                             </label>
@@ -80,7 +80,7 @@
                         </div>
 
                         <div>
-                            <input type="submit" class="btn btn-primary btn-sm" value="Change password" onclick="register(event)">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Change password" onclick="changePassword(event)">
                         </div>
                         <div id="registerStatus" class="m-2">&nbsp;</div>
                     </form>
