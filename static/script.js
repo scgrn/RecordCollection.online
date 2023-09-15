@@ -6,13 +6,20 @@ function initPasswordToggle(inputId, eyeId) {
     const passwordInput = document.querySelector(inputId)
     const eye = document.querySelector(eyeId)
 
-    eye.addEventListener("click", function() {
-        this.classList.toggle("fa-eye-slash")
-        this.classList.toggle("fa-eye")
-        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
-        passwordInput.setAttribute("type", type)
-    });
+    if (passwordInput && eye) {
+        eye.addEventListener("click", function() {
+            this.classList.toggle("fa-eye-slash")
+            this.classList.toggle("fa-eye")
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
+            passwordInput.setAttribute("type", type)
+        });
+    }
 }
+
+function changePassword(event) {
+    event.preventDefault();
+    alert("Change password");
+};
 
 function register(event) {
     event.preventDefault();
@@ -153,6 +160,16 @@ document.addEventListener("DOMContentLoaded", function() {
     initPasswordToggle("#registerConfirmPassword", "#registerConfirmEye");
     initPasswordToggle("#loginPassword", "#loginEye");
 
-    document.getElementById('registerUsername').addEventListener('keypress', inputFilter);
-    document.getElementById('loginUsername').addEventListener('keypress', inputFilter);
+    initPasswordToggle("#resetPassword", "#resetEye");
+    initPasswordToggle("#resetConfirmPassword", "#resetConfirmEye");
+
+    let registerUsername = document.getElementById('registerUsername');
+    if (registerUsername) {
+        registerUsername.addEventListener('keypress', inputFilter);
+    }
+    
+    let loginUsername = document.getElementById('loginUsername');
+    if (loginUsername) {
+        loginUsername.addEventListener('keypress', inputFilter);
+    }
 });

@@ -1,7 +1,8 @@
 <%- include('./partials/head'); %>
 
     <body class="d-flex flex-column h-100">
-    
+    <script src="../script.js"></script>
+        
     <!-- Modal -->
     <div class="modal modal-zoom fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -64,19 +65,19 @@
                 <div id="reset-password" class="collapse">                
                     <form id="resetPasswordForm"">
                         <div class="password-container">
-                            <label for="registerPassword">
+                            <label for="resetPassword">
                                 <i class="fas fa-lock"></i>
                             </label>
-                            <input type="password" name="password" placeholder="New password" id="registerPassword" required>
-                            <i class="fas fa-eye" id="registerEye"></i>
+                            <input type="password" name="password" placeholder="New password" id="resetPassword" required>
+                            <i class="fas fa-eye" id="resetEye"></i>
                         </div>
 
                         <div class="password-container ">
-                            <label for="registerConfirmPassword">
+                            <label for="resetConfirmPassword">
                                 <i class="fas fa-lock"></i>
                             </label>
-                            <input type="password" name="confirmPassword" placeholder="Confirm new password" id="registerConfirmPassword" required>
-                            <i class="fas fa-eye" id="registerConfirmEye"></i>
+                            <input type="password" name="confirmPassword" placeholder="Confirm new password" id="resetConfirmPassword" required>
+                            <i class="fas fa-eye" id="resetConfirmEye"></i>
                         </div>
 
                         <div>
