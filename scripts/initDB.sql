@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
     dateCreated date NOT NULL,
     activationCode varchar(50) DEFAULT '',
     recoveryToken varchar(255) DEFAULT '',
-    firstLogin boolean DEFAULT FALSE,
+    firstLogin boolean DEFAULT TRUE,
     
     PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
