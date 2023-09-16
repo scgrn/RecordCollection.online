@@ -30,12 +30,13 @@ router.get('/recover', (request, response) => {
                     request.session.username = result[0].username;
                     request.session.usedID = result[0].userID;
                     request.session.loggedIn = false;
-                    
+
+                    response.render("../views/resetPassword", { user: results[0].username});                    
                 } else {
                     // token not found, throw a 404
-                    
+                    response.status(404);
+                    response.render("../views/message", { message: "404: NOT FOUND"});                    
                 }
-                
             });
         });
     }
