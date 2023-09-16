@@ -18,9 +18,26 @@ router.get('/recover', (request, response) => {
     let token = request.query.token;
     if (token) {
         // compute hash
-        // check if hashed token is in DB
-        // 404 if not
-        // show reset password form
+        bcrypt.hash(password, 10, function(err, hash) {        
+            // check if hashed token is in DB
+            connection.query('SELECT id, username FROM users WHERE recoveryToken = ?;', [hash], function(error, results, fields) {
+                if (error) {
+                    console.error(error.stack);
+                }
+                    
+                if (result) {
+                    // show reset password form
+                    request.session.username = result[0].username;
+                    request.session.usedID = result[0].userID;
+                    request.session.loggedIn = false;
+                    
+                } else {
+                    // token not found, throw a 404
+                    
+                }
+                
+            });
+        });
     }
     
     let query = request.query.query;
