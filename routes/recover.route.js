@@ -15,30 +15,55 @@ router.get('/recover', (request, response) => {
         return;
     }
 
+    var promises = [];
+    
     let token = request.query.token;
+    let found = false;
+    
     if (token) {
-        // compute hash
-        bcrypt.hash(password, 10, function(err, hash) {        
-            // check if hashed token is in DB
-            connection.query('SELECT id, username FROM users WHERE recoveryToken = ?;', [hash], function(error, results, fields) {
-                if (error) {
-                    console.error(error.stack);
-                }
-                    
-                if (result) {
-                    // show reset password form
-                    request.session.username = result[0].username;
-                    request.session.usedID = result[0].userID;
-                    request.session.loggedIn = false;
+        // check if token is in DB
+        connection.query('SELECT id, username, recoveryToken FROM users WHERE recoveryToken <> "";', function(error, results, fields) {
+            if (error) {
+                console.error(error.stack);
+            }
+            
+            for (var i = 0; i < results.length; i++) {
+                let username = results[i].username;
+                let userID = results[i].id;
 
-                    response.render("../views/resetPassword", { user: results[0].username});                    
-                } else {
-                    // token not found, throw a 404
+                let promise = bcrypt.compare(token, results[i].recoveryToken);
+                promises.push(promise);
+
+                promise.then((result) => {
+                    if (result) {
+                        found = true;
+                        connection.query('UPDATE users SET recoveryToken = "" WHERE id = ?;', [userID], function(error, results, fields) {
+                            if (error) {
+                                console.error(error.stack);
+                            }
+
+                            // show reset password form
+                            request.session.username = username;
+                            request.session.usedID = userID;
+                            request.session.loggedIn = false;
+
+                            response.render("../views/resetPassword", { username: username});                    
+                            return;
+                        });
+                    }
+                }).catch((error) => console.error(error));
+            }
+            
+            Promise.all(promises).then(() => {
+                // token not found, throw a 404
+                if (!found) {
                     response.status(404);
                     response.render("../views/message", { message: "404: NOT FOUND"});                    
                 }
             });
         });
+        
+        return;
     }
     
     let query = request.query.query;
