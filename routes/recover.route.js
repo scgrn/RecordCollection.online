@@ -47,7 +47,7 @@ router.get('/recover', (request, response) => {
                             request.session.usedID = userID;
                             request.session.loggedIn = false;
 
-                            response.render("../views/resetPassword", { username: username});                    
+                            response.render("../views/resetPassword", { username: username, redirect: true});                    
                             return;
                         });
                     }

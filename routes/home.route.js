@@ -51,7 +51,8 @@ router.get('/manage', (request, response) => {
     response.render("../views/manage", {
         userName: request.session.username,
         email: request.session.email,
-        dateCreated: request.session.dateCreated.slice(0, 10)
+        dateCreated: request.session.dateCreated.slice(0, 10),
+        redirect: false
     });
 });
 

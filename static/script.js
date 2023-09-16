@@ -132,7 +132,7 @@ function login(event) {
     });
 }
 
-function changePassword(event) {
+function changePassword(event, redirect) {
     event.preventDefault();
     clearTimeout(timeoutID);
     
@@ -167,9 +167,13 @@ function changePassword(event) {
                 form.reset();
 
                 setTimeout(() => {
-                    var element = document.getElementById("reset-password");
-                    var collapse = new bootstrap.Collapse(element);
-                    collapse.hide();
+                    if (redirect) {
+                        window.location.href = "/";
+                    } else {
+                        var element = document.getElementById("reset-password");
+                        var collapse = new bootstrap.Collapse(element);
+                        collapse.hide();
+                    }
                 }, 3500);
             } else {
                 status.classList.add("error");
