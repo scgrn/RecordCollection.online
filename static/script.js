@@ -6,12 +6,14 @@ function initPasswordToggle(inputId, eyeId) {
     const passwordInput = document.querySelector(inputId)
     const eye = document.querySelector(eyeId)
 
-    eye.addEventListener("click", function() {
-        this.classList.toggle("fa-eye-slash")
-        this.classList.toggle("fa-eye")
-        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
-        passwordInput.setAttribute("type", type)
-    });
+    if (passwordInput && eye) {
+        eye.addEventListener("click", function() {
+            this.classList.toggle("fa-eye-slash")
+            this.classList.toggle("fa-eye")
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
+            passwordInput.setAttribute("type", type)
+        });
+    }
 }
 
 function register(event) {
@@ -130,6 +132,65 @@ function login(event) {
     });
 }
 
+function changePassword(event, redirect) {
+    event.preventDefault();
+    clearTimeout(timeoutID);
+    
+    var status =  document.getElementById("status");
+    status.classList.remove("error");
+    status.innerHTML = "Please wait...";
+
+    var form = document.getElementById("resetPasswordForm");
+    const formData = new FormData(form);
+
+    var object = {};
+    formData.forEach((value, key) => {
+        object[key] = value;
+    });
+
+    var json = JSON.stringify(object);
+
+    fetch('/user/changePassword', {
+        method: "POST",
+        redirect: "follow",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: json
+    }).then(async (response) => {
+        response.clone().json().then((data) => {
+            status.innerHTML = data.message;
+
+            if (data.code == 0) {
+                status.classList.remove("error");
+                form.reset();
+
+                setTimeout(() => {
+                    if (redirect) {
+                        window.location.href = "/";
+                    } else {
+                        var element = document.getElementById("reset-password");
+                        var collapse = new bootstrap.Collapse(element);
+                        collapse.hide();
+                    }
+                }, 3500);
+            } else {
+                status.classList.add("error");
+            }
+        }).catch((error) => {
+            console.log(error);
+            status.classList.add("error");
+            status.innerHTML = "Something went wrong!";
+        }).then(function () {
+            timeoutID = setTimeout(() => {
+                status.classList.remove("error");
+                status.innerHTML = "&nbsp;";
+            }, 3500);
+        });
+    });
+};
+
 function inputFilter(event) {
     let regEx = /[A-Za-z0-9-_]/;
 
@@ -153,6 +214,16 @@ document.addEventListener("DOMContentLoaded", function() {
     initPasswordToggle("#registerConfirmPassword", "#registerConfirmEye");
     initPasswordToggle("#loginPassword", "#loginEye");
 
-    document.getElementById('registerUsername').addEventListener('keypress', inputFilter);
-    document.getElementById('loginUsername').addEventListener('keypress', inputFilter);
+    initPasswordToggle("#resetPassword", "#resetEye");
+    initPasswordToggle("#resetConfirmPassword", "#resetConfirmEye");
+
+    let registerUsername = document.getElementById('registerUsername');
+    if (registerUsername) {
+        registerUsername.addEventListener('keypress', inputFilter);
+    }
+    
+    let loginUsername = document.getElementById('loginUsername');
+    if (loginUsername) {
+        loginUsername.addEventListener('keypress', inputFilter);
+    }
 });

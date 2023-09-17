@@ -1,7 +1,7 @@
 <%- include('./partials/head'); %>
 
     <body class="d-flex flex-column h-100">
-    
+        
     <!-- Modal -->
     <div class="modal modal-zoom fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -60,14 +60,18 @@
 
                 <p>
                 <a href="/user/logout">Log out</a><br/>
-                <a href="">Change password</a><br/>
+                <a href="#reset-password" data-bs-toggle="collapse">Change password</a><br/>
+
+<%- include('./partials/resetPassword'); %>
+
                 <a href="#deleteAccountModal" data-bs-toggle="modal" data-bs-target="">Delete account</a>
                 </p>
-
             </div>
         </div>
     </div>
 
 <%- include('./partials/footer'); %>
+    
+    <script src="../script.js"></script>
     </body>
 </html>

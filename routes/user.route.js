@@ -142,7 +142,7 @@ router.post('/auth', function(request, response) {
                     if (result) {
                         // check user is verified
                         if (results[0].activationCode != '') {
-                            response.redirect('/deny');
+                            response.redirect('/user/unverified');
                             return;
                         }
 
@@ -175,6 +175,40 @@ router.post('/auth', function(request, response) {
     }
 });
 
+router.post('/changePassword', function (request, response) {
+    if (!request.session.username) {
+        response.redirect('/');
+        return;
+    }
+    
+    let password = request.body.password;
+    let confirmPassword = request.body.confirmPassword;
+    
+    //  check password meets requirements
+    if (password.length < 8) {
+        response.send({message: 'Password must be at least 8 characters', code: 1});
+        response.end();
+        
+        return;
+    }
+    if (password != confirmPassword) {
+        response.send({message: 'Passwords do not match', code: 1});
+        response.end();
+        
+        return;
+    }
+    
+    bcrypt.hash(password, 10, function(err, hash) {
+        //  write hashed new password to database
+        connection.query('UPDATE users SET password = ? WHERE username = ?', [hash, request.session.username], function(error, results, fields) {
+            if (error) {
+                console.error(error.stack);
+            }
+            response.send({message: "Your password has been changed.", code: 0});
+        });
+    });
+});
+
 router.get('/verify', function(request, response) {
     let verificationCode = request.query.code;
     
@@ -202,8 +236,8 @@ router.get('/verify', function(request, response) {
     });
 });
 
-router.get('/deny', function(request, response) {
-    response.render("../views/message", { message: "Not verified yet - check your email!"});
+router.get('/unverified', function(request, response) {
+    response.render("../views/message", { message: "Account not verified yet - check your email!"});
 });
 
 router.get('/welcome', function(request, response) {

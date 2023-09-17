@@ -160,14 +160,15 @@ router.get('/collection/remove', (request, response) => {
 });
 
 router.get('/collection/random', (request, response) => {
-    connection.query('SELECT DISTINCT u.id, u.username FROM users u JOIN collections c ON u.id = c.userID', function(error, results) {
+    //  get list of users that have a non-empty collection
+    connection.query('SELECT DISTINCT u.id, u.username FROM users u JOIN collections c ON u.id = c.userID', (error, results) =>     {
         if (request.session["viewedCollections"] == null) {
             request.session["viewedCollections"] = [];
         }
 
         //  clear list if all collections have been viewed
-        var adjustment = request.session.userID ? 1 : 0;
-        if (request.session["viewedCollections"].length == results.length - adjustment) {
+        var adjustment = (request.session.userID && request.session.numAlbums > 0) ? 1 : 0;
+        if (request.session["viewedCollections"].length >= results.length - adjustment) {
             request.session["viewedCollections"] = [];
         }
         

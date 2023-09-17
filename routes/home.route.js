@@ -37,6 +37,7 @@ router.get('/', (request, response) => {
 
     //  serve file
     var collection = collectionRouter.getCollectionByUserID(request.session.userID, (collection) => {
+        request.session.numAlbums = collection.length;
         response.render("../views/home", { message: message, userName: request.session.username, collection: collection});
     });
 });
@@ -50,7 +51,8 @@ router.get('/manage', (request, response) => {
     response.render("../views/manage", {
         userName: request.session.username,
         email: request.session.email,
-        dateCreated: request.session.dateCreated.slice(0, 10)
+        dateCreated: request.session.dateCreated.slice(0, 10),
+        redirect: false
     });
 });
 

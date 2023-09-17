@@ -30,6 +30,7 @@ body {
     color: var(--main-text-color);
 
     overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .modal-content {
