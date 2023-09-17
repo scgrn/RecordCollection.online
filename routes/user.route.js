@@ -248,6 +248,7 @@ router.get('/logout', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
     request.session.userID = null;
+    request.session.destroy();
 
     response.redirect('/');
 });
