@@ -12,12 +12,6 @@ require('dotenv').config()
 
 const app = express();
 
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true
-}));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
@@ -269,7 +263,8 @@ router.get('/delete', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
     request.session.userID = null;
-
+    request.session.destroy();
+    
     response.render("../views/message", { message: "Your account has been deleted."});
 });
 
