@@ -24,7 +24,13 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     store: sessionStore,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 2,
+        sameSite: true,
+        secure: process.env.NODE_ENV === 'production'
+    }
 }));
 
 app.set('view engine', 'ejs');
