@@ -1,20 +1,33 @@
 // 'use strict';
 
+require('dotenv').config();
+
 const express = require('express');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+const connection = require('./utils/db.js');
+
 const path = require('path');
 const favicon = require('serve-favicon');
-require('dotenv').config();
+
 
 const app = express();
 
-app.set('view engine', 'ejs');
+const sessionStore = new MySQLStore({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
+},connection);
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    resave: true,
+    store: sessionStore,
+    resave: false,
     saveUninitialized: true
 }));
+
+app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
