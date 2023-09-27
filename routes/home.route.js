@@ -9,6 +9,8 @@ const path = require('path');
 const router = express.Router();
 
 router.get('/', (request, response) => {
+    console.log(request.session);
+
     if (!request.session.loggedIn) {
         response.redirect('/'); // bye now
         return;

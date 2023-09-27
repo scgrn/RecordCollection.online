@@ -118,6 +118,8 @@ router.post('/register', function(request, response) {
 });
 
 router.post('/auth', function(request, response) {
+    console.log(request.session);
+
     const badLoginMessage = "Incorrect username or password";
     
     let username = request.body.username;
