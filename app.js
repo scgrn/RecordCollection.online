@@ -42,7 +42,7 @@ app.use(favicon(path.join(__dirname, 'static', '/favicon.ico')));
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/', (request, response) => {
-    console.log(request.session);
+    console.error(request.session);
     
     // redirect to HOME if user is logged in
     if (request.session.loggedIn) {
