@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const path = require('path');
 const connection = require('../utils/db.js');
 const sendEmail = require('../utils/email.js');
+const logger = require('../utils/logger.js');
 const ejs = require("ejs");
 
 require('dotenv').config()
@@ -118,7 +119,7 @@ router.post('/register', function(request, response) {
 });
 
 router.post('/auth', function(request, response) {
-    console.error(request.session);
+    logger.info(JSON.stringify(request.session));
 
     const badLoginMessage = "Incorrect username or password";
     

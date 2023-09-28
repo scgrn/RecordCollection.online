@@ -18,4 +18,5 @@ static/img/qrCodes/*
 .env.local
 
 scripts/resetDemoAccount.cnf
+app.log
 

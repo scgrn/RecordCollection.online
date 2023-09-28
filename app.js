@@ -6,10 +6,10 @@ const express = require('express');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const connection = require('./utils/db.js');
+const logger = require('./utils/logger.js');
 
 const path = require('path');
 const favicon = require('serve-favicon');
-
 
 const app = express();
 
@@ -42,7 +42,7 @@ app.use(favicon(path.join(__dirname, 'static', '/favicon.ico')));
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/', (request, response) => {
-    console.error(request.session);
+    logger.info(JSON.stringify(request.session));
     
     // redirect to HOME if user is logged in
     if (request.session.loggedIn) {

@@ -3,13 +3,14 @@
 const express = require('express');
 const generateQRcode = require('../utils/qr.js');
 const connection = require('../utils/db.js');
+const logger = require('../utils/logger.js');
 const fs = require('fs');
 const path = require('path');
 
 const router = express.Router();
 
 router.get('/', (request, response) => {
-    console.error(request.session);
+    logger.info(JSON.stringify(request.session));
 
     if (!request.session.loggedIn) {
         response.redirect('/'); // bye now
