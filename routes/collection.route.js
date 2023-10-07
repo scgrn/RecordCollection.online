@@ -187,6 +187,7 @@ router.get('/collection/random', (request, response) => {
         //  choose a user at random and add to the list of viewed collections
         var index = Math.floor(Math.random() * results.length);
         request.session["viewedCollections"].push(results[index].id);
+        request.session.save();
 
         response.redirect('/' + results[index].username);
     });

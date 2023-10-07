@@ -150,7 +150,8 @@ router.post('/auth', function(request, response) {
                         request.session.email = results[0].email;
                         request.session.dateCreated = results[0].dateCreated;
                         request.session.firstLogin = results[0].firstLogin == 1;
-
+                        request.session.save();
+                        
                         //  redirect to home page
                         response.redirect('/home');
                     } else {
