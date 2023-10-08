@@ -13,6 +13,8 @@ const favicon = require('serve-favicon');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 const sessionStore = new MySQLStore({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
