@@ -243,11 +243,13 @@ router.get('/welcome', function(request, response) {
 });
 
 router.get('/logout', function(request, response) {
+    logger.info("LOGOUT:");
+    logger.info(JSON.stringify(request.session));
+
     request.session.loggedIn = false;
     request.session.username = null;
     request.session.userID = null;
     request.session.destroy();
-    request.session.save();
 
     response.redirect('/');
 });
