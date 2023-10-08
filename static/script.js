@@ -153,6 +153,7 @@ function changePassword(event, redirect) {
     fetch('/user/changePassword', {
         method: "POST",
         redirect: "follow",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json"

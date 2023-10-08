@@ -19,6 +19,7 @@ function search(event) {
     fetch('/home/search', {
         method: "POST",
         redirect: "follow",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
             Accept: "application/json"
