@@ -251,7 +251,8 @@ router.get('/logout', function(request, response) {
             return res.redirect('/home');
         }
         sessionStore.close();
-        response.clearCookie('connect.sid', {path: '/', domain: 'recordcollection.online'});
+        // response.clearCookie('connect.sid', {path: '/', domain: 'recordcollection.online'});
+        response.clearCookie('connect.sid');
 
         response.redirect('/');
     });
