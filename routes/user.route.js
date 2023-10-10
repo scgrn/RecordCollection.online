@@ -246,12 +246,15 @@ router.get('/logout', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
     request.session.userID = null;
-    request.session.destroy();
+    request.session.destroy(error => {
+        if (error) {
+            return res.redirect('/home');
+        }
+        sessionStore.close();
+        response.clearCookie('connect.sid');
 
-    sessionStore.close();
-    response.clearCookie('connect.sid');
-
-    response.redirect('/');
+        response.redirect('/');
+    });
 });
 
 router.get('/delete', function(request, response) {
