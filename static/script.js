@@ -209,7 +209,19 @@ function inputFilter(event) {
         event.preventDefault();
     }
 }
-        
+
+function link(url) {
+    fetch(url, {
+        method: 'get',
+        credentials: 'include',
+        redirect: "follow"
+    }).then(response => {
+        window.location.href = response.url;
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     initPasswordToggle("#registerPassword", "#registerEye");
     initPasswordToggle("#registerConfirmPassword", "#registerConfirmEye");
@@ -222,9 +234,20 @@ document.addEventListener("DOMContentLoaded", function() {
     if (registerUsername) {
         registerUsername.addEventListener('keypress', inputFilter);
     }
-    
+
     let loginUsername = document.getElementById('loginUsername');
     if (loginUsername) {
         loginUsername.addEventListener('keypress', inputFilter);
+    }
+
+    //  intercept all hyperlinks and call them with the fetch API
+    var links = document.getElementsByTagName('a');
+    console.log(links);
+    for (var i = 0; i < links.length; i++) {
+        var href = link.href;
+
+        if (href.length && href.substring(0, 1) !== "#" && href.substring(0, 1) !== "/") {
+            links[i].href = "javascript:link('" + encodeURIComponent(links[i].href) + "');";
+        }
     }
 });

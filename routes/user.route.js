@@ -273,9 +273,15 @@ router.get('/delete', function(request, response) {
     request.session.loggedIn = false;
     request.session.username = null;
     request.session.userID = null;
-    request.session.destroy();
-    
-    response.render("../views/message", { message: "Your account has been deleted."});
+    request.session.destroy(error => {
+        if (error) {
+            return res.redirect('/home');
+        }
+        sessionStore.close();
+        response.clearCookie('connect.sid', {path: '/', domain: 'recordcollection.online'});
+
+        response.render("../views/message", { message: "Your account has been deleted."});
+    });    
 });
 
 module.exports = router;
