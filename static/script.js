@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var links = document.getElementsByTagName('a');
     console.log(links);
     for (var i = 0; i < links.length; i++) {
-        var href = link.href;
+        var href = links[i].href;
 
         if (href.length && href.substring(0, 1) !== "#" && href.substring(0, 1) !== "/") {
             links[i].href = "javascript:link('" + encodeURIComponent(links[i].href) + "');";
