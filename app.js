@@ -78,7 +78,7 @@ app.use((request, response, next) => {
 });
 
 // start server
-const port = 80;
+const port = 8080;
 app.listen(port, () => {
     console.log(new Date().toISOString() + " | Server running at port " + port);
 });
